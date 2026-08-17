@@ -24,4 +24,6 @@ The app repository is currently **private**, so GitHub may require sign-in (and 
 
 ## Deploy
 
-This is a static site. GitHub Pages or Cloudflare Pages can publish the repo root as-is.
+Live site (GitHub Pages): **https://amakann.github.io/nirai-flux-web/**
+
+Static site from the repo root (`master`). `.nojekyll` is included so assets and paths work as-is.
