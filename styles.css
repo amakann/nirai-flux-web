@@ -38,19 +38,36 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  width: 100%;
   max-width: 100%;
+  overscroll-behavior-x: none;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
   font-family: var(--font-sans);
   font-size: 1.05rem;
   line-height: 1.65;
   color: var(--ink);
   background: var(--bg);
+}
+
+.bg-terrain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+  pointer-events: none;
+  display: block;
 }
 
 a {
@@ -70,16 +87,6 @@ code {
   border-radius: 8px;
   padding: 0.08em 0.4em;
   word-break: break-all;
-}
-
-.bg-terrain {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  display: block;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1000,7 +1007,7 @@ footer p {
   .page-shell {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
-    padding-top: 1.25rem;
+    padding-top: 0;
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
@@ -1014,7 +1021,7 @@ footer p {
     max-width: 100%;
     min-width: 0;
     margin: 0;
-    padding: 0.65rem 0 0.75rem;
+    padding: 0.55rem 0 0.65rem;
     border-bottom: 1px solid var(--line);
     background: rgba(5, 5, 5, 0.72);
     backdrop-filter: blur(var(--glass-blur));
@@ -1075,6 +1082,7 @@ footer p {
 
   .topbar {
     overflow-x: hidden;
+    max-width: 100%;
   }
 
   .topbar-inner,
@@ -1086,21 +1094,40 @@ footer p {
   }
 
   .topbar-actions {
-    flex-shrink: 0;
+    flex-shrink: 1;
+    min-width: 0;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
   }
 
   .wordmark {
-    font-size: 0.92rem;
-    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
   }
 
-  .studio-demo,
-  .current-card,
-  .feature-grid,
-  .use-grid,
-  .spec-grid {
-    max-width: 100%;
+  .brand-link {
     min-width: 0;
+  }
+
+  .player-controls {
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .volume-control input[type="range"] {
+    width: 4.5rem;
+    max-width: 22vw;
+  }
+
+  .page-shell,
+  .topbar,
+  footer,
+  main {
+    max-width: 100%;
+    overflow-x: hidden;
   }
 }
 

@@ -47,6 +47,14 @@
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll, { passive: true });
+  // Some mobile browsers still allow sideways page drag despite overflow-x:hidden
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (window.scrollX) window.scrollTo(0, window.scrollY);
+    },
+    { passive: true }
+  );
   updateFromScroll();
 
   links.forEach((link) => {
