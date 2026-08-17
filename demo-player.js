@@ -234,7 +234,6 @@
       if (!preset) return;
       var same = currentId === id && audio.src;
       currentId = id;
-      byId("demo-now-name").textContent = preset.name;
       byId("demo-title").textContent = preset.name;
       applyArt(id);
       renderList();

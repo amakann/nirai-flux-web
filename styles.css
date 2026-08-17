@@ -37,14 +37,15 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: clip;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
   max-width: 100%;
-  overflow-x: clip;
+  overflow-x: hidden;
   font-family: var(--font-sans);
   font-size: 1.05rem;
   line-height: 1.65;
@@ -608,7 +609,10 @@ html[lang="ja"] .docs h1 {
 .current-card {
   display: grid;
   grid-template-columns: 148px 1fr;
-  gap: 1.1rem;
+  grid-template-areas:
+    "art heading"
+    "art player";
+  gap: 0.55rem 1.1rem;
   padding: 1.1rem;
   border-radius: var(--radius);
   background: rgba(18, 17, 16, 0.72);
@@ -618,31 +622,19 @@ html[lang="ja"] .docs h1 {
   box-shadow: var(--shadow);
 }
 
-.favorite-now-playing {
-  grid-column: 1 / -1;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-width: 0;
-  color: var(--now-playing);
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.favorite-now-playing span {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.current-head {
+  display: contents;
 }
 
 .art {
+  grid-area: art;
   width: 148px;
   height: 148px;
   border-radius: 16px;
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
+  align-self: start;
 }
 
 .art-shape {
@@ -653,12 +645,14 @@ html[lang="ja"] .docs h1 {
   opacity: 0.92;
 }
 
-.current-meta {
+.current-heading {
+  grid-area: heading;
   min-width: 0;
+  align-self: end;
 }
 
-.current-meta h2 {
-  margin: 0 0 0.45rem;
+.current-heading h2 {
+  margin: 0 0 0.35rem;
   font-size: 1.05rem;
   font-weight: 600;
   line-height: 1.35;
@@ -668,7 +662,7 @@ html[lang="ja"] .docs h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  margin: 0;
   color: var(--ink-muted);
   font-size: 0.85rem;
 }
@@ -679,8 +673,11 @@ html[lang="ja"] .docs h1 {
 }
 
 .player {
+  grid-area: player;
   display: grid;
   gap: 0.55rem;
+  min-width: 0;
+  align-self: start;
 }
 
 .wave {
@@ -843,11 +840,36 @@ html[lang="ja"] .docs h1 {
 @media (max-width: 700px) {
   .current-card {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "head"
+      "player";
+    gap: 1rem;
+  }
+
+  .current-head {
+    grid-area: head;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0;
   }
 
   .art {
-    width: 100%;
-    height: 160px;
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+  }
+
+  .current-heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+
+  .current-heading h2 {
+    margin: 0;
+    font-size: 1rem;
   }
 }
 
@@ -981,22 +1003,24 @@ footer p {
     padding-top: 1.25rem;
     width: 100%;
     max-width: 100%;
+    overflow-x: hidden;
   }
 
   .toc {
     position: sticky;
     top: 3.7rem;
     z-index: 5;
-    width: auto;
+    width: 100%;
     max-width: 100%;
     min-width: 0;
-    margin: 0 -1.5rem;
+    margin: 0;
     padding: 0.65rem 0 0.75rem;
     border-bottom: 1px solid var(--line);
     background: rgba(5, 5, 5, 0.72);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   .toc-list {
@@ -1006,13 +1030,14 @@ footer p {
     max-width: 100%;
     min-width: 0;
     margin: 0;
-    padding: 0 1.5rem;
+    padding: 0;
     overflow-x: auto;
     overflow-y: hidden;
     border-left: 0;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
+    touch-action: pan-x;
     box-sizing: border-box;
   }
 
@@ -1022,6 +1047,10 @@ footer p {
 
   .toc-list li {
     flex: 0 0 auto;
+  }
+
+  .toc-list li:first-child .toc-link {
+    margin-left: 0;
   }
 
   .toc-link {
@@ -1044,9 +1073,25 @@ footer p {
     color: var(--accent-hover);
   }
 
+  .topbar {
+    overflow-x: hidden;
+  }
+
   .topbar-inner,
   footer {
     max-width: 100%;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .topbar-actions {
+    flex-shrink: 0;
+  }
+
+  .wordmark {
+    font-size: 0.92rem;
+    letter-spacing: 0.1em;
   }
 
   .studio-demo,
