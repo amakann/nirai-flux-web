@@ -54,6 +54,8 @@
         }
       </style>
     </noscript>
+    <script src="i18n.js" defer></script>
+    <script src="bg-terrain.js" defer></script>
   </head>
   <body data-i18n-title="apiMetaTitle" data-i18n-desc="apiMetaDesc">
     <canvas id="bg-terrain" class="bg-terrain" aria-hidden="true"></canvas>
@@ -205,8 +207,5 @@ Invoke-RestMethod -Method Post "$api/api/control" -ContentType "application/json
         （Pre-release を含む）。
       </p>
     </footer>
-
-    <script src="bg-terrain.js"></script>
-    <script src="i18n.js"></script>
   </body>
 </html>
