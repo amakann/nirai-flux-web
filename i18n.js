@@ -19,7 +19,6 @@ const COPY = {
     tocNeed: "必要環境",
     tocDownload: "ダウンロード",
     featuresTitle: "できること",
-    featuresLede: "ローカル生成のまま、配信・作業・店舗まで幅広く使えます。",
     feat1Title: "商用配信可",
     feat1Body:
       '<a href="https://stability.ai/license" target="_blank" rel="noopener noreferrer">Stability AI Community License</a> の条件内で、商用配信にも使えます。年収などの制限はライセンス本文を確認してください。生成はあなたのPC上だけで完結します。',
@@ -30,7 +29,6 @@ const COPY = {
     feat3Body:
       "好きな音声をアップロードして再生できます。配信のイントロやジングルを流してから、生成BGMへクロスフェードで切り替えることも可能です。",
     usesTitle: "向いている使い方",
-    usesLede: "クラウドの音楽APIに頼らず、自分の世界観のまま音を流し続けたい場面向けです。",
     use1Title: "配信用BGM",
     use1Body:
       "VTuberの雑談枠、ゲーム配信、作業配信。プリセットを切り替えて、枠の雰囲気に合う曲を切れ目なくストリーミング。",
@@ -119,7 +117,6 @@ const COPY = {
     tocNeed: "Requirements",
     tocDownload: "Download",
     featuresTitle: "Features",
-    featuresLede: "Local generation that fits live streams, focus work, and storefronts.",
     feat1Title: "Commercial streams, within license terms",
     feat1Body:
       'Stable Audio 3 can be used for commercial streaming under the <a href="https://stability.ai/license" target="_blank" rel="noopener noreferrer">Stability AI Community License</a>. Check the license for revenue and other limits. Generation stays on your PC.',
@@ -130,7 +127,6 @@ const COPY = {
     feat3Body:
       "Upload any audio and play it. Run an intro or jingle first, then crossfade into generated BGM.",
     usesTitle: "Good fits",
-    usesLede: "For anyone who wants continuous, original sound without a cloud music API.",
     use1Title: "Live-stream BGM",
     use1Body:
       "VTuber chats, game streams, work streams. Switch presets and keep a matching bed playing without gaps.",

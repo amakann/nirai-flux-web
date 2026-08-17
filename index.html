@@ -64,26 +64,51 @@
   <body>
     <canvas id="bg-terrain" class="bg-terrain" aria-hidden="true"></canvas>
 
-    <header class="topbar">
-      <div class="topbar-inner">
-        <div class="brand">
-          <a class="brand-link" href="index.html">
-            <img class="brand-mark" src="logo.png" width="34" height="34" alt="" />
-            <p class="wordmark">NIRAI FLUX</p>
-          </a>
-        </div>
-        <div class="topbar-actions">
-          <a class="nav-link" href="api.html" data-i18n="navApi">API Doc</a>
-          <div class="lang-switch" role="group" aria-label="Language">
-            <button type="button" data-lang="ja" aria-pressed="true">日本語</button>
-            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    <div class="site-chrome">
+      <header class="topbar">
+        <div class="topbar-inner">
+          <div class="brand">
+            <a class="brand-link" href="index.html">
+              <img class="brand-mark" src="logo.png" width="34" height="34" alt="" />
+              <p class="wordmark">NIRAI FLUX</p>
+            </a>
+          </div>
+          <div class="topbar-actions">
+            <a class="nav-link" href="api.html" data-i18n="navApi">API Doc</a>
+            <div class="lang-switch" role="group" aria-label="Language">
+              <button type="button" data-lang="ja" aria-pressed="true">日本語</button>
+              <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      <nav class="toc toc--mobile" aria-label="On this page">
+        <ol class="toc-list">
+          <li>
+            <a class="toc-link is-active" href="#overview" data-i18n="tocOverview">概要</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#studio-demo" data-i18n="tocDemo">デモ</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#features" data-i18n="tocFeatures">できること</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#use-cases" data-i18n="tocUses">向いている使い方</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#requirements" data-i18n="tocNeed">必要環境</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#download" data-i18n="tocDownload">ダウンロード</a>
+          </li>
+        </ol>
+      </nav>
+    </div>
 
     <div class="page-shell">
-      <nav class="toc" aria-label="On this page">
+      <nav class="toc toc--desktop" aria-label="On this page">
         <ol class="toc-list">
           <li>
             <a class="toc-link is-active" href="#overview" data-i18n="tocOverview">概要</a>
@@ -170,9 +195,6 @@
 
       <section class="section" id="features" aria-labelledby="features-title">
         <h2 class="section-title" id="features-title" data-i18n="featuresTitle">できること</h2>
-        <p class="section-lede" data-i18n="featuresLede">
-          ローカル生成のまま、配信・作業・店舗まで幅広く使えます。
-        </p>
         <div class="feature-grid">
           <article class="feature-card">
             <h3 data-i18n="feat1Title">商用配信可</h3>
@@ -199,9 +221,6 @@
 
       <section class="section" id="use-cases" aria-labelledby="use-cases-title">
         <h2 class="section-title" id="use-cases-title" data-i18n="usesTitle">向いている使い方</h2>
-        <p class="section-lede" data-i18n="usesLede">
-          クラウドの音楽APIに頼らず、自分の世界観のまま音を流し続けたい場面向けです。
-        </p>
         <div class="use-grid">
           <article class="use-card">
             <h3 data-i18n="use1Title">配信用BGM</h3>
