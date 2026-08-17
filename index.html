@@ -2,11 +2,11 @@
 <html lang="ja" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Nirai Flux — 自分のPCで、配信BGMを流し続ける</title>
     <meta
       name="description"
-      content="日本人の配信者向けローカルAI音楽スタジオ。好きなジャンル・プロンプトの曲を、自分のパソコンで切れ目なくストリーミング。Stable Audio 3 がローカルで動きます。"
+      content="配信者のためのローカルAI音楽スタジオ。好きなジャンル・プロンプトの曲を、自分のパソコンで切れ目なくストリーミング。Stable Audio 3 がローカルで動きます。"
     />
     <meta property="og:title" content="Nirai Flux — 自分のPCで、配信BGMを流し続ける" />
     <meta
@@ -23,6 +23,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      html:not(.i18n-ready) body {
+        visibility: hidden;
+      }
+    </style>
     <script>
       (function () {
         var q = new URLSearchParams(location.search).get("lang");
@@ -38,8 +43,18 @@
                 ? "ja"
                 : "en";
         document.documentElement.lang = l;
+        setTimeout(function () {
+          document.documentElement.classList.add("i18n-ready");
+        }, 2500);
       })();
     </script>
+    <noscript>
+      <style>
+        html body {
+          visibility: visible !important;
+        }
+      </style>
+    </noscript>
   </head>
   <body>
     <canvas id="bg-terrain" class="bg-terrain" aria-hidden="true"></canvas>
@@ -91,7 +106,7 @@
         <p class="eyebrow" data-i18n="eyebrow">配信者のためのローカルAI音楽スタジオ</p>
         <h1 data-i18n-html="heroTitle">自分のパソコンで、<br />好きな音楽をずっと流せる。</h1>
         <p class="lede" data-i18n-html="lede">
-          日本人の配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCから切れ目なくストリーミング。
+          配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCから切れ目なくストリーミング。
           <strong>Stable Audio 3</strong> がローカルで生成するので、クラウドの音楽APIには何も送りません。
         </p>
         <div class="cta">

@@ -37,11 +37,14 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  max-width: 100%;
+  overflow-x: clip;
   font-family: var(--font-sans);
   font-size: 1.05rem;
   line-height: 1.65;
@@ -215,9 +218,12 @@ footer {
   grid-template-columns: var(--toc-width) minmax(0, var(--page));
   gap: 2.5rem;
   align-items: start;
+  width: 100%;
   max-width: var(--shell);
   margin: 0 auto;
   padding: 2rem 1.5rem 3.5rem;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .toc {
@@ -970,37 +976,56 @@ footer p {
 
 @media (max-width: 980px) {
   .page-shell {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
     padding-top: 1.25rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .toc {
     position: sticky;
     top: 3.7rem;
     z-index: 5;
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
     margin: 0 -1.5rem;
-    padding: 0.65rem 1.5rem 0.75rem;
+    padding: 0.65rem 0 0.75rem;
     border-bottom: 1px solid var(--line);
     background: rgba(5, 5, 5, 0.72);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
+    box-sizing: border-box;
   }
 
   .toc-list {
     display: flex;
     gap: 0.15rem;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0 1.5rem;
     overflow-x: auto;
+    overflow-y: hidden;
     border-left: 0;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    box-sizing: border-box;
   }
 
   .toc-list::-webkit-scrollbar {
     display: none;
   }
 
+  .toc-list li {
+    flex: 0 0 auto;
+  }
+
   .toc-link {
+    display: block;
     flex: 0 0 auto;
     padding: 0.4rem 0.75rem;
     border: 1px solid var(--line);
@@ -1017,6 +1042,20 @@ footer p {
     border-color: rgba(65, 221, 238, 0.45);
     background: rgba(65, 221, 238, 0.1);
     color: var(--accent-hover);
+  }
+
+  .topbar-inner,
+  footer {
+    max-width: 100%;
+  }
+
+  .studio-demo,
+  .current-card,
+  .feature-grid,
+  .use-grid,
+  .spec-grid {
+    max-width: 100%;
+    min-width: 0;
   }
 }
 

@@ -2,10 +2,10 @@ const COPY = {
   ja: {
     metaTitle: "Nirai Flux — 自分のPCで、配信BGMを流し続ける",
     metaDesc:
-      "日本人の配信者向けローカルAI音楽スタジオ。好きなジャンル・プロンプトの曲を、自分のパソコンで切れ目なくストリーミング。Stable Audio 3 がローカルで動きます。",
+      "配信者のためのローカルAI音楽スタジオ。好きなジャンル・プロンプトの曲を、自分のパソコンで切れ目なくストリーミング。Stable Audio 3 がローカルで動きます。",
     eyebrow: "配信者のためのローカルAI音楽スタジオ",
     heroTitle: "自分のパソコンで、<br />好きな音楽をずっと流せる。",
-    lede: "日本人の配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCから切れ目なくストリーミング。<strong>Stable Audio 3</strong> がローカルで生成するので、クラウドの音楽APIには何も送りません。",
+    lede: "配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCから切れ目なくストリーミング。<strong>Stable Audio 3</strong> がローカルで生成するので、クラウドの音楽APIには何も送りません。",
     download: "Windows版をダウンロード",
     presets: "プリセット",
     formatColon: "フォーマット:",
@@ -105,7 +105,7 @@ const COPY = {
       "A local AI music studio for streamers. Prompt any genre and keep original tracks playing on your own computer. Stable Audio 3 runs locally — nothing is sent to a cloud music API.",
     eyebrow: "Local AI music studio for streamers",
     heroTitle: "Keep your own music playing.<br />On your PC, without stopping.",
-    lede: "Built for streamers — especially live Japanese streams. Write a prompt, pick a genre, and <strong>stream new takes on your own computer</strong>. <strong>Stable Audio 3</strong> runs locally. Nothing is sent to a cloud music API.",
+    lede: "Built for streamers. Write a prompt, pick a genre, and <strong>stream new takes on your own computer</strong>. <strong>Stable Audio 3</strong> runs locally. Nothing is sent to a cloud music API.",
     download: "Download for Windows",
     presets: "Presets",
     formatColon: "Format:",
@@ -248,11 +248,18 @@ function applyLang(lang) {
   url.searchParams.set("lang", lang);
   history.replaceState(null, "", url);
   document.dispatchEvent(new CustomEvent("nf-lang"));
+  document.documentElement.classList.add("i18n-ready");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function bootLang() {
   applyLang(detectLang());
   document.querySelectorAll("[data-lang]").forEach((btn) => {
     btn.addEventListener("click", () => applyLang(btn.dataset.lang));
   });
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bootLang);
+} else {
+  bootLang();
+}
