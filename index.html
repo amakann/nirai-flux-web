@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ja" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nirai Flux — 自分のPCで、配信BGMを流し続ける</title>
+    <meta
+      name="description"
+      content="日本人の配信者向けローカルAI音楽スタジオ。好きなジャンル・プロンプトの曲を、自分のパソコンで切れ目なくストリーミング。Stable Audio 3 がローカルで動きます。"
+    />
+    <meta property="og:title" content="Nirai Flux — 自分のPCで、配信BGMを流し続ける" />
+    <meta
+      property="og:description"
+      content="プロンプトを書いて、自分のPCからオリジナルBGMを流し続ける。クラウドの音楽APIには何も送りません。"
+    />
+    <meta property="og:image" content="screenshot-studio.png" />
+    <meta name="theme-color" content="#0c0b0a" />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Montserrat:wght@600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      (function () {
+        var q = new URLSearchParams(location.search).get("lang");
+        var s = localStorage.getItem("nf-lang");
+        var l =
+          q === "ja" || q === "en"
+            ? q
+            : s === "ja" || s === "en"
+              ? s
+              : String(navigator.language || "")
+                    .toLowerCase()
+                    .indexOf("ja") === 0
+                ? "ja"
+                : "en";
+        document.documentElement.lang = l;
+      })();
+    </script>
+  </head>
+  <body>
+    <canvas id="bg-terrain" class="bg-terrain" aria-hidden="true"></canvas>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <a class="brand-link" href="index.html">
+            <img class="brand-mark" src="logo.png" width="34" height="34" alt="" />
+            <p class="wordmark">NIRAI FLUX</p>
+          </a>
+        </div>
+        <div class="topbar-actions">
+          <a class="nav-link" href="api.html" data-i18n="navApi">API Doc</a>
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" data-lang="ja" aria-pressed="true">日本語</button>
+            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-shell">
+      <nav class="toc" aria-label="On this page">
+        <ol class="toc-list">
+          <li>
+            <a class="toc-link is-active" href="#overview" data-i18n="tocOverview">概要</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#studio-demo" data-i18n="tocDemo">デモ</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#features" data-i18n="tocFeatures">できること</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#use-cases" data-i18n="tocUses">向いている使い方</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#requirements" data-i18n="tocNeed">必要環境</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#download" data-i18n="tocDownload">ダウンロード</a>
+          </li>
+        </ol>
+      </nav>
+
+      <main>
+      <section class="hero" id="overview">
+        <p class="eyebrow" data-i18n="eyebrow">配信者のためのローカルAI音楽スタジオ</p>
+        <h1 data-i18n-html="heroTitle">自分のパソコンで、<br />好きな音楽をずっと流せる。</h1>
+        <p class="lede" data-i18n-html="lede">
+          日本人の配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCから切れ目なくストリーミング。
+          <strong>Stable Audio 3</strong> がローカルで生成するので、クラウドの音楽APIには何も送りません。
+        </p>
+        <div class="cta">
+          <a
+            class="btn"
+            href="https://github.com/amakann/nirai-flux/releases/download/test/NiraiFlux-windows-x64-setup-TEST.exe"
+            data-i18n="download"
+          >
+            Windows版をダウンロード
+          </a>
+        </div>
+      </section>
+
+      <section class="studio-demo" id="studio-demo" aria-label="Demo player">
+        <div class="current-card">
+          <div class="favorite-now-playing">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span id="demo-now-name">Kawaii Chat Pop</span>
+          </div>
+          <div class="art" id="demo-art" aria-hidden="true">
+            <div class="art-shape" id="demo-art-shape"></div>
+          </div>
+          <div class="current-meta">
+            <h2 id="demo-title">Kawaii Chat Pop</h2>
+            <div class="meta-line">
+              <span><strong data-i18n="formatColon">フォーマット:</strong> OPUS</span>
+            </div>
+            <div class="player">
+              <audio id="demo-audio" preload="metadata"></audio>
+              <div
+                class="wave"
+                id="demo-wave"
+                role="slider"
+                tabindex="0"
+                aria-label="Seek"
+              >
+                <canvas></canvas>
+              </div>
+              <div class="player-controls">
+                <button type="button" class="play-btn" id="demo-play" aria-label="Play">▶</button>
+                <span class="time" id="demo-time">0:00 / 0:00</span>
+                <label class="volume-control">
+                  <span class="volume-icon" id="demo-vol-icon" aria-hidden="true"></span>
+                  <input type="range" id="demo-volume" min="0" max="1" step="0.01" value="1" aria-label="Volume" />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <section class="history-panel">
+          <div class="tabs">
+            <button type="button" class="active" tabindex="-1" data-i18n="presets">プリセット</button>
+          </div>
+          <div class="history-list" id="demo-presets"></div>
+        </section>
+      </section>
+      <p class="quiet demo-caption" data-i18n="demoCaption">プリセットを選んで再生。ジャンルも雰囲気も、自分の枠のまま。</p>
+
+      <section class="section" id="features" aria-labelledby="features-title">
+        <h2 class="section-title" id="features-title" data-i18n="featuresTitle">できること</h2>
+        <p class="section-lede" data-i18n="featuresLede">
+          ローカル生成のまま、配信・作業・店舗まで幅広く使えます。
+        </p>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3 data-i18n="feat1Title">商用配信可</h3>
+            <p data-i18n-html="feat1Body">
+              <a href="https://stability.ai/license" target="_blank" rel="noopener noreferrer">Stability AI Community License</a>
+              の条件内で、商用配信にも使えます。年収などの制限はライセンス本文を確認してください。生成はあなたのPC上だけで完結します。
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3 data-i18n="feat2Title">API・OBS・Stream Deck対応</h3>
+            <p data-i18n-html="feat2Body">
+              ローカル HTTP API で Generate / Stream / Play / Stop を操作できます。OBS や Stream Deck、チャット連携からも同じエンドポイントを叩けます。
+              <a href="api.html">API Doc</a>
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3 data-i18n="feat3Title">任意の音楽をアップロード</h3>
+            <p data-i18n="feat3Body">
+              好きな音声をアップロードして再生できます。配信のイントロやジングルを流してから、生成BGMへクロスフェードで切り替えることも可能です。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="use-cases" aria-labelledby="use-cases-title">
+        <h2 class="section-title" id="use-cases-title" data-i18n="usesTitle">向いている使い方</h2>
+        <p class="section-lede" data-i18n="usesLede">
+          クラウドの音楽APIに頼らず、自分の世界観のまま音を流し続けたい場面向けです。
+        </p>
+        <div class="use-grid">
+          <article class="use-card">
+            <h3 data-i18n="use1Title">配信用BGM</h3>
+            <p data-i18n="use1Body">
+              VTuberの雑談枠、ゲーム配信、作業配信。プリセットを切り替えて、枠の雰囲気に合う曲を切れ目なくストリーミング。
+            </p>
+          </article>
+          <article class="use-card">
+            <h3 data-i18n="use2Title">作業・勉強用BGM</h3>
+            <p data-i18n="use2Body">
+              lo-fi やアンビエントなど、集中しやすい雰囲気をプロンプトで指定。自分のPCだけで流し続けられます。
+            </p>
+          </article>
+          <article class="use-card">
+            <h3 data-i18n="use3Title">レストラン・店舗用BGM</h3>
+            <p data-i18n="use3Body">
+              店の空気に合うジャンルを指定して、オリジナルの店内BGMをローカル生成。権利まわりを気にしやすい場面でも扱いやすい構成です。
+            </p>
+          </article>
+          <article class="use-card">
+            <h3 data-i18n="use4Title">作曲の参考・スケッチ</h3>
+            <p data-i18n="use4Body">
+              アイデア出しやムードボード代わりに。プロンプトで方向性を試し、気に入ったテイクを書き出して作曲の出発点にできます。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="requirements">
+        <h2 data-i18n="needTitle">必要環境</h2>
+        <div class="spec-grid">
+          <article class="spec-card">
+            <div class="spec-card-head">
+              <h3 data-i18n="smallTitle">Small Music</h3>
+              <p class="spec-tag" data-i18n="smallTag">軽量向け</p>
+            </div>
+            <dl class="specs">
+              <div>
+                <dt data-i18n="specGpu">GPU</dt>
+                <dd data-i18n="smallGpu">NVIDIA / Intel Arc · 目安 VRAM 約2.5GB</dd>
+              </div>
+              <div>
+                <dt data-i18n="specDisk">空き容量</dt>
+                <dd data-i18n="smallDisk">モデル約3GB（初回に加えて数GB）</dd>
+              </div>
+              <div>
+                <dt data-i18n="specLength">曲の長さ</dt>
+                <dd data-i18n="smallLength">最大 約2分</dd>
+              </div>
+              <div>
+                <dt data-i18n="specFit">向いているPC</dt>
+                <dd data-i18n="smallFit">Arc ノートや 16GB メモリなど、余裕が少ないマシン</dd>
+              </div>
+            </dl>
+          </article>
+          <article class="spec-card">
+            <div class="spec-card-head">
+              <h3 data-i18n="mediumTitle">Medium</h3>
+              <p class="spec-tag" data-i18n="mediumTag">高品質・長尺</p>
+            </div>
+            <dl class="specs">
+              <div>
+                <dt data-i18n="specGpu">GPU</dt>
+                <dd data-i18n="mediumGpu">NVIDIA RTX 30シリーズ以上が目安 · VRAM 約6.5GB</dd>
+              </div>
+              <div>
+                <dt data-i18n="specDisk">空き容量</dt>
+                <dd data-i18n="mediumDisk">モデル約10GB（初回に加えて数GB）</dd>
+              </div>
+              <div>
+                <dt data-i18n="specLength">曲の長さ</dt>
+                <dd data-i18n="mediumLength">最大 約6分20秒</dd>
+              </div>
+              <div>
+                <dt data-i18n="specFit">向いているPC</dt>
+                <dd data-i18n="mediumFit">余裕のあるGPU。品質と長さを優先するとき</dd>
+              </div>
+            </dl>
+          </article>
+        </div>
+        <p class="quiet" data-i18n="needOs">Windows。NVIDIA または Intel Arc / Xe（例: Arc 140V）。</p>
+      </section>
+
+      <section class="cta-footer" id="download">
+        <a
+          class="btn"
+          href="https://github.com/amakann/nirai-flux/releases/download/test/NiraiFlux-windows-x64-setup-TEST.exe"
+          data-i18n="download"
+        >
+          Windows版をダウンロード
+        </a>
+      </section>
+    </main>
+    </div>
+
+    <footer>
+      <p data-i18n-html="footer">
+        ソースとリリース:
+        <a href="https://github.com/amakann/nirai-flux">amakann/nirai-flux</a>
+        （Pre-release を含む）。
+      </p>
+    </footer>
+
+    <script src="wave-peaks.js"></script>
+    <script src="bg-terrain.js"></script>
+    <script src="demo-player.js"></script>
+    <script src="i18n.js"></script>
+    <script src="toc.js"></script>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ja" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nirai Flux API Doc — Stream Deck / OBS 自動化</title>
+    <meta
+      name="description"
+      content="Nirai Flux のローカル HTTP API。Generate / Stream / Play / Stop を Stream Deck や OBS、curl から操作する手順。"
+    />
+    <meta property="og:title" content="Nirai Flux API Doc" />
+    <meta
+      property="og:description"
+      content="Local HTTP API for Generate, Stream, Play, and Stop — Stream Deck, OBS, curl."
+    />
+    <meta name="theme-color" content="#0c0b0a" />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Montserrat:wght@600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      (function () {
+        var q = new URLSearchParams(location.search).get("lang");
+        var s = localStorage.getItem("nf-lang");
+        var l =
+          q === "ja" || q === "en"
+            ? q
+            : s === "ja" || s === "en"
+              ? s
+              : String(navigator.language || "")
+                    .toLowerCase()
+                    .indexOf("ja") === 0
+                ? "ja"
+                : "en";
+        document.documentElement.lang = l;
+      })();
+    </script>
+  </head>
+  <body data-i18n-title="apiMetaTitle" data-i18n-desc="apiMetaDesc">
+    <canvas id="bg-terrain" class="bg-terrain" aria-hidden="true"></canvas>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <a class="brand-link" href="index.html">
+            <img class="brand-mark" src="logo.png" width="34" height="34" alt="" />
+            <p class="wordmark">NIRAI FLUX</p>
+          </a>
+        </div>
+        <div class="topbar-actions">
+          <a class="nav-link" href="index.html" data-i18n="navHome">ホーム</a>
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" data-lang="ja" aria-pressed="true">日本語</button>
+            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="docs">
+      <p class="eyebrow" data-i18n="navApi">API Doc</p>
+      <h1 data-i18n="apiTitle">API Doc</h1>
+      <p class="lede" data-i18n="apiLede">
+        スタジオが開いているあいだ、ローカル HTTP API で再生と生成を操作できます。Stream Deck、OBS、チャットボット、スクリプトから同じエンドポイントを使えます。
+      </p>
+
+      <section class="docs-block">
+        <h2 data-i18n="apiBeforeTitle">始める前に</h2>
+        <div data-i18n-html="apiBeforeBody">
+          <ol>
+            <li>Nirai Flux が起動し、モデルが Ready になっていること。</li>
+            <li>
+              スタジオがブラウザで開いていること（通常 <code>http://127.0.0.1:8787</code>）。タブを閉じるとコマンドは溜まるだけで再生されません。
+            </li>
+            <li>ポート <strong>8787</strong> は localhost / LAN / VPN に限定。インターネットに公開しないでください。</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="docs-block">
+        <h2 data-i18n="apiActionsTitle">できること</h2>
+        <div data-i18n-html="apiActionsBody">
+          <ul>
+            <li><strong>generate</strong> — プロンプトまたはプリセットから1曲生成して再生</li>
+            <li><strong>stream</strong> — 同じ設定で新テイクを連続生成（切れないBGM）</li>
+            <li><strong>play</strong> — 既存の曲・ストリーム・アップロードを再生</li>
+            <li><strong>stop</strong> — 再生とストリームを停止</li>
+          </ul>
+          <p>
+            <code>play_when</code> は <code>now</code>（すぐ再生／クロスフェード）または
+            <code>after_current</code>（今の曲が終わってから）。
+          </p>
+        </div>
+      </section>
+
+      <section class="docs-block">
+        <h2 data-i18n="apiEndpointTitle">エンドポイント</h2>
+        <div data-i18n-html="apiEndpointBody">
+          <p>
+            <code>POST http://127.0.0.1:8787/api/control</code> に JSON を送ります。
+            <code>GET /api/control</code> で最後のコマンドを確認できます。
+          </p>
+        </div>
+      </section>
+
+      <section class="docs-block">
+        <h2 data-i18n="apiExamplesTitle">例</h2>
+        <div data-i18n-html="apiExamplesBody">
+          <p>プリセットから1曲:</p>
+          <pre><code>{"action":"generate","preset":"Chill Pad","play_when":"now"}</code></pre>
+          <p>連続ストリーム:</p>
+          <pre><code>{"action":"stream","preset":"Chill Pad","crossfade_seconds":3,"play_when":"now"}</code></pre>
+          <p>アップロードしたイントロ:</p>
+          <pre><code>{"action":"play","upload_id":"PASTE_ID_HERE","play_when":"now"}</code></pre>
+          <p>停止:</p>
+          <pre><code>{"action":"stop"}</code></pre>
+        </div>
+      </section>
+
+      <section class="docs-block">
+        <h2 data-i18n="apiCurlTitle">curl</h2>
+        <div data-i18n-html="apiCurlBody">
+          <pre><code>curl -s http://127.0.0.1:8787/api/control \
+  -H "Content-Type: application/json" \
+  -d "{\"action\":\"generate\",\"preset\":\"Chill Pad\",\"play_when\":\"now\"}"</code></pre>
+        </div>
+      </section>
+
+      <section class="docs-block">
+        <h2 data-i18n="apiPsTitle">PowerShell</h2>
+        <div data-i18n-html="apiPsBody">
+          <pre><code>$api = "http://127.0.0.1:8787"
+Invoke-RestMethod -Method Post "$api/api/control" -ContentType "application/json" -Body (@{
+  action = "generate"
+  preset = "Chill Pad"
+  play_when = "now"
+} | ConvertTo-Json)</code></pre>
+        </div>
+      </section>
+
+      <section class="docs-block">
+        <h2 data-i18n="apiIdsTitle">IDの調べ方</h2>
+        <div data-i18n-html="apiIdsBody">
+          <ul>
+            <li><code>GET /api/favorites</code> — プリセット（name または id）</li>
+            <li><code>GET /api/songs</code> — 単曲</li>
+            <li><code>GET /api/streams</code> — ストリームセッション</li>
+            <li><code>GET /api/uploads</code> — アップロードした音声</li>
+          </ul>
+          <p>ファイルアップロード: <code>POST /api/uploads</code>（multipart <code>file</code>）</p>
+        </div>
+      </section>
+
+      <section class="docs-block">
+        <h2 data-i18n="apiFieldsTitle">主なフィールド</h2>
+        <div data-i18n-html="apiFieldsBody">
+          <ul>
+            <li><code>action</code> — generate / stream / play / stop</li>
+            <li><code>prompt</code> または <code>preset</code></li>
+            <li><code>duration</code> — 秒（モデル上限あり）</li>
+            <li><code>play_when</code> — now / after_current</li>
+            <li><code>crossfade_seconds</code> — 0–10</li>
+            <li><code>output_format</code> — opus / mp3 / aac / wav</li>
+            <li>play 時は <code>generation_id</code> / <code>stream_id</code> / <code>upload_id</code> のいずれか1つ</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="docs-block">
+        <h2 data-i18n="apiTipTitle">配信での定番</h2>
+        <div data-i18n-html="apiTipBody">
+          ベッドはプリセットに保存。イントロ／ジングル／BRB は Uploads に入れて id を控える。Stream Deck に generate・stream・play
+          intro・stop を割り当て。<code>after_current</code> で今の曲のあとにジングルを挟めます。
+        </div>
+      </section>
+
+      <p class="docs-back">
+        <a href="index.html" data-i18n="navHome">ホーム</a>
+      </p>
+    </main>
+
+    <footer>
+      <p data-i18n-html="footer">
+        ソースとリリース:
+        <a href="https://github.com/amakann/nirai-flux">amakann/nirai-flux</a>
+        （Pre-release を含む）。
+      </p>
+    </footer>
+
+    <script src="bg-terrain.js"></script>
+    <script src="i18n.js"></script>
+  </body>
+</html>
