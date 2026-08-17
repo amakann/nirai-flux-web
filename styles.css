@@ -336,6 +336,9 @@ main {
 #studio-demo,
 #features,
 #use-cases,
+#pricing,
+#how-to,
+#creator,
 #requirements,
 #download {
   scroll-margin-top: 5.5rem;
@@ -346,6 +349,9 @@ main {
   #studio-demo,
   #features,
   #use-cases,
+  #pricing,
+  #how-to,
+  #creator,
   #requirements,
   #download {
     scroll-margin-top: 7.5rem;
@@ -459,7 +465,7 @@ html[lang="ja"] .section-title {
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: 1rem;
 }
 
@@ -503,6 +509,320 @@ html[lang="ja"] .use-card h3 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.pricing-card {
+  padding: 1.15rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(18, 17, 16, 0.55);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.pricing-card--highlight {
+  border-color: rgba(65, 221, 238, 0.35);
+  box-shadow: 0 0 0 1px rgba(65, 221, 238, 0.08);
+}
+
+.pricing-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.pricing-tag {
+  margin: 0 0 0.45rem;
+  color: var(--accent-hover);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.pricing-price {
+  margin: 0 0 0.65rem;
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.pricing-price strong {
+  font-weight: 700;
+}
+
+.pricing-was {
+  margin-right: 0.4rem;
+  color: var(--ink-muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: line-through;
+}
+
+.pricing-card p:last-child {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+.section-lede {
+  margin: -0.35rem 0 1rem;
+  max-width: 44rem;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.compare-wrap {
+  margin-top: 1.15rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(18, 17, 16, 0.55);
+}
+
+.compare-table {
+  width: 100%;
+  min-width: 32rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.compare-table thead th {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.compare-table tbody th {
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.compare-table td {
+  color: var(--ink-muted);
+}
+
+.compare-table tbody tr:last-child th,
+.compare-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.compare-table thead th:last-child,
+.compare-table tbody td:last-child {
+  color: var(--ink);
+  background: rgba(65, 221, 238, 0.06);
+}
+
+.compare-table thead th:last-child {
+  font-weight: 700;
+}
+
+.how-to-list {
+  margin: 0 0 0.85rem;
+  padding-left: 1.2rem;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.how-to-list li + li {
+  margin-top: 0.45rem;
+}
+
+.how-to-list strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.pricing-note {
+  margin: 0.85rem 0 0;
+}
+
+.creator-card {
+  display: grid;
+  grid-template-columns: min(11rem, 34%) 1fr;
+  gap: 1.25rem;
+  align-items: start;
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(18, 17, 16, 0.55);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.creator-photo {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  object-fit: cover;
+  aspect-ratio: 2 / 3;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+.creator-copy p {
+  margin: 0 0 0.75rem;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.creator-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.creator-role {
+  color: var(--ink) !important;
+  font-weight: 600;
+}
+
+.api-page {
+  background: var(--bg);
+}
+
+.api-main {
+  max-width: var(--shell);
+  margin: 0 auto;
+  padding: 1.4rem 1.5rem 2.5rem;
+}
+
+.api-intro {
+  max-width: 44rem;
+  margin-bottom: 1.25rem;
+}
+
+.api-intro h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.7rem, 3.5vw, 2.2rem);
+  font-weight: 600;
+}
+
+.swagger-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #121110;
+}
+
+.swagger-wrap .swagger-ui {
+  font-family: var(--font-sans);
+}
+
+.swagger-wrap .swagger-ui .topbar,
+.swagger-wrap .swagger-ui .information-container .link,
+.swagger-wrap .swagger-ui .info .title small.version-stamp {
+  display: none;
+}
+
+.swagger-wrap .swagger-ui,
+.swagger-wrap .swagger-ui .wrapper,
+.swagger-wrap .swagger-ui section.models,
+.swagger-wrap .swagger-ui .opblock-tag-section,
+.swagger-wrap .swagger-ui .opblock,
+.swagger-wrap .swagger-ui table tbody tr td,
+.swagger-wrap .swagger-ui table thead tr th,
+.swagger-wrap .swagger-ui .model-box,
+.swagger-wrap .swagger-ui .model,
+.swagger-wrap .swagger-ui .response-col_status,
+.swagger-wrap .swagger-ui .response-col_links,
+.swagger-wrap .swagger-ui .parameter__name,
+.swagger-wrap .swagger-ui .parameter__type,
+.swagger-wrap .swagger-ui .prop-type,
+.swagger-wrap .swagger-ui .markdown p,
+.swagger-wrap .swagger-ui .markdown li,
+.swagger-wrap .swagger-ui .info .title,
+.swagger-wrap .swagger-ui .info .base-url,
+.swagger-wrap .swagger-ui .info li,
+.swagger-wrap .swagger-ui .info p,
+.swagger-wrap .swagger-ui .opblock .opblock-summary-description,
+.swagger-wrap .swagger-ui .opblock .opblock-summary-path,
+.swagger-wrap .swagger-ui .opblock .opblock-summary-operation-id,
+.swagger-wrap .swagger-ui .opblock-description-wrapper p,
+.swagger-wrap .swagger-ui .responses-inner h4,
+.swagger-wrap .swagger-ui .responses-inner h5,
+.swagger-wrap .swagger-ui label,
+.swagger-wrap .swagger-ui .btn,
+.swagger-wrap .swagger-ui .tab li,
+.swagger-wrap .swagger-ui .response-col_description__inner div {
+  color: var(--ink);
+}
+
+.swagger-wrap .swagger-ui .info .title {
+  color: var(--ink);
+}
+
+.swagger-wrap .swagger-ui .info .markdown p,
+.swagger-wrap .swagger-ui .info .markdown li {
+  color: var(--ink-muted);
+}
+
+.swagger-wrap .swagger-ui .opblock.opblock-post {
+  border-color: rgba(65, 221, 238, 0.35);
+  background: rgba(65, 221, 238, 0.06);
+}
+
+.swagger-wrap .swagger-ui .opblock.opblock-get {
+  border-color: rgba(158, 124, 255, 0.35);
+  background: rgba(158, 124, 255, 0.06);
+}
+
+.swagger-wrap .swagger-ui .opblock .opblock-summary-method {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.swagger-wrap .swagger-ui .opblock.opblock-get .opblock-summary-method {
+  background: rgba(158, 124, 255, 0.85);
+  color: #fff;
+}
+
+.swagger-wrap .swagger-ui .btn.execute {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.swagger-wrap .swagger-ui .btn {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.swagger-wrap .swagger-ui input[type="text"],
+.swagger-wrap .swagger-ui textarea,
+.swagger-wrap .swagger-ui select {
+  background: rgba(0, 0, 0, 0.35);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.swagger-wrap .swagger-ui .scheme-container {
+  background: rgba(18, 17, 16, 0.95);
+  box-shadow: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.swagger-load-error {
+  padding: 1.25rem 1.35rem;
+}
+
+.swagger-load-error p {
+  margin: 0 0 0.5rem;
+  color: var(--ink-muted);
 }
 
 .panel {
@@ -1175,10 +1495,24 @@ footer p {
   }
 }
 
+@media (max-width: 980px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 800px) {
   .feature-grid,
   .use-grid {
     grid-template-columns: 1fr;
+  }
+
+  .creator-card {
+    grid-template-columns: 1fr;
+  }
+
+  .creator-photo {
+    max-width: 12rem;
   }
 
   .specs > div {

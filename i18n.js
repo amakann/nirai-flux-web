@@ -2,13 +2,12 @@ const COPY = {
   ja: {
     metaTitle: "Nirai Flux — 自分のPCで、配信BGMを流し続ける",
     metaDesc:
-      "配信者のためのローカルAI音楽スタジオ。好きなジャンル・プロンプトの曲を、自分のパソコンで切れ目なくストリーミング。Stable Audio 3 がローカルで動きます。",
+      "配信者のためのローカルAI音楽スタジオ。好きなジャンル・プロンプトの曲を自分のPCで生成。ゲスト5曲、無料アカウント100曲、Proは買い切り¥980で無制限。",
     eyebrow: "配信者のためのローカルAI音楽スタジオ",
     heroTitle: "自分のパソコンで、<br />好きな音楽をずっと流せる。",
-    lede: "配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCから切れ目なくストリーミング。<strong>Stable Audio 3</strong> がローカルで生成するので、クラウドの音楽APIには何も送りません。",
+    lede: "配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCで生成。<strong>Stable Audio 3</strong> がローカルで動くので、クラウドの音楽APIには何も送りません。アカウントは任意です。",
     download: "Windows版をダウンロード",
     presets: "プリセット",
-    formatColon: "フォーマット:",
     play: "再生",
     pause: "一時停止",
     demoCaption: "プリセットを選んで再生。ジャンルも雰囲気も、自分の枠のまま。",
@@ -16,6 +15,9 @@ const COPY = {
     tocDemo: "デモ",
     tocFeatures: "できること",
     tocUses: "向いている使い方",
+    tocPricing: "料金",
+    tocHowTo: "使い方",
+    tocCreator: "制作者",
     tocNeed: "必要環境",
     tocDownload: "ダウンロード",
     featuresTitle: "できること",
@@ -24,10 +26,19 @@ const COPY = {
       '<a href="https://stability.ai/license" target="_blank" rel="noopener noreferrer">Stability AI Community License</a> の条件内で、商用配信にも使えます。年収などの制限はライセンス本文を確認してください。生成はあなたのPC上だけで完結します。',
     feat2Title: "API・OBS・Stream Deck対応",
     feat2Body:
-      'ローカル HTTP API で Generate / Stream / Play / Stop を操作できます。OBS や Stream Deck、チャット連携からも同じエンドポイントを叩けます。<a href="api.html">API Doc</a>',
+      'ローカル HTTP API で Generate / Stream / Play / Stop を操作できます。OBS や Stream Deck、チャット連携からも同じエンドポイントを叩けます。<a href="api.html">API ドキュメント</a>',
     feat3Title: "任意の音楽をアップロード",
     feat3Body:
       "好きな音声をアップロードして再生できます。配信のイントロやジングルを流してから、生成BGMへクロスフェードで切り替えることも可能です。",
+    feat4Title: "出力フォーマットを選択",
+    feat4Body:
+      "OPUS、AAC、MP3、WAV から選べます。配信用の軽量コーデックから、編集用の非圧縮まで用途に合わせて書き出せます。",
+    feat5Title: "プリセット",
+    feat5Body:
+      "気に入った設定をプリセットとして保存。枠の流れに合わせて切り替えられます。",
+    feat6Title: "作った曲は何度でも再生",
+    feat6Body:
+      "一度つくった曲は残ります。配信のたびに作り直す必要はありません。何回再生しても、生成回数は増えません。",
     usesTitle: "向いている使い方",
     use1Title: "配信用BGM",
     use1Body:
@@ -41,6 +52,35 @@ const COPY = {
     use4Title: "作曲の参考・スケッチ",
     use4Body:
       "アイデア出しやムードボード代わりに。プロンプトで方向性を試し、気に入ったテイクを書き出して作曲の出発点にできます。",
+    pricingTitle: "料金",
+    pricingLede:
+      "アカウントは任意。生成は自分のPC上。ログインは「誰か」「何曲作ったか」「Pro か」だけをクラウドで管理します。",
+    pricingGuestTitle: "ゲスト",
+    pricingGuestPrice: "無料",
+    pricingGuestGen: "5曲",
+    pricingFreeTitle: "無料アカウント",
+    pricingFreePrice: "無料",
+    pricingFreeGen: "100曲",
+    pricingProTitle: "Pro",
+    pricingProGen: "無制限",
+    pricingProPrice: '<span class="pricing-was">¥2,980</span> <strong>¥980</strong>',
+    pricingRowGen: "生成",
+    pricingRowPrice: "価格",
+    howToTitle: "使い方",
+    howTo1: "ログインせずに生成 — このPCで最大 5 曲。",
+    howTo2:
+      "残り曲数 / アカウント → <strong>Google で続ける</strong>、またはメール＋パスワード。無料アカウントは 100 曲（サーバー保存なので再インストールしてもリセットされません）。",
+    howTo3:
+      "<strong>アップグレード</strong> で Pro を購入（ローンチセール ¥980）。Stripe 決済後、アプリに戻ると生成が無制限になります。",
+    howToSignIn: "ログインは Google またはメール。Google のポップアップがブロックされたらメールでどうぞ。",
+    howToStudio:
+      "スタジオは通常 <code>http://127.0.0.1:8787</code>。トップバーに残り曲数とアカウントが出ます。",
+    creatorTitle: "制作者",
+    creatorPhotoAlt: "制作者のプロフィール写真",
+    creatorRole: "Software Engineer & Sound Engineer · Tokyo",
+    creatorBio1:
+      "Funeral Doom バンド Funeral Moth、Post-Metal バンド Presence of Soul、Hardcore / Grindcore バンド Guede で演奏しています。",
+    creatorBio2: "プライベートスタジオ Studio Kamiokande を運営しています。",
     needTitle: "必要環境",
     smallTitle: "Small Music",
     smallTag: "軽量向け",
@@ -59,54 +99,26 @@ const COPY = {
     mediumLength: "最大 約6分20秒",
     mediumFit: "余裕のあるGPU。品質と長さを優先するとき",
     needOs: "Windows。NVIDIA または Intel Arc / Xe（例: Arc 140V）。",
-    navApi: "API Doc",
+    navApi: "API ドキュメント",
     navHome: "ホーム",
-    apiMetaTitle: "Nirai Flux API Doc — Stream Deck / OBS 自動化",
+    apiMetaTitle: "Nirai Flux API — OpenAPI",
     apiMetaDesc:
-      "Nirai Flux のローカル HTTP API。Generate / Stream / Play / Stop を Stream Deck や OBS、curl から操作する手順。",
-    apiTitle: "API Doc",
+      "Nirai Flux のローカル HTTP API リファレンス。Stream Deck、OBS、curl から Generate / Stream / Play / Stop を操作。",
+    apiTitle: "API リファレンス",
     apiLede:
-      "スタジオが開いているあいだ、ローカル HTTP API で再生と生成を操作できます。Stream Deck、OBS、チャットボット、スクリプトから同じエンドポイントを使えます。",
-    apiBeforeTitle: "始める前に",
-    apiBeforeBody:
-      "<ol><li>Nirai Flux が起動し、モデルが Ready になっていること。</li><li>スタジオがブラウザで開いていること（通常 <code>http://127.0.0.1:8787</code>）。タブを閉じるとコマンドは溜まるだけで再生されません。</li><li>ポート <strong>8787</strong> は localhost / LAN / VPN に限定。インターネットに公開しないでください。</li></ol>",
-    apiActionsTitle: "できること",
-    apiActionsBody:
-      "<ul><li><strong>generate</strong> — プロンプトまたはプリセットから1曲生成して再生</li><li><strong>stream</strong> — 同じ設定で新テイクを連続生成（切れないBGM）</li><li><strong>play</strong> — 既存の曲・ストリーム・アップロードを再生</li><li><strong>stop</strong> — 再生とストリームを停止</li></ul><p><code>play_when</code> は <code>now</code>（すぐ再生／クロスフェード）または <code>after_current</code>（今の曲が終わってから）。</p>",
-    apiEndpointTitle: "エンドポイント",
-    apiEndpointBody:
-      "<p><code>POST http://127.0.0.1:8787/api/control</code> に JSON を送ります。<code>GET /api/control</code> で最後のコマンドを確認できます。</p>",
-    apiExamplesTitle: "例",
-    apiExamplesBody:
-      "<p>プリセットから1曲:</p><pre><code>{\"action\":\"generate\",\"preset\":\"Chill Pad\",\"play_when\":\"now\"}</code></pre><p>連続ストリーム:</p><pre><code>{\"action\":\"stream\",\"preset\":\"Chill Pad\",\"crossfade_seconds\":3,\"play_when\":\"now\"}</code></pre><p>アップロードしたイントロ:</p><pre><code>{\"action\":\"play\",\"upload_id\":\"PASTE_ID_HERE\",\"play_when\":\"now\"}</code></pre><p>停止:</p><pre><code>{\"action\":\"stop\"}</code></pre>",
-    apiCurlTitle: "curl",
-    apiCurlBody:
-      '<pre><code>curl -s http://127.0.0.1:8787/api/control \\\n  -H "Content-Type: application/json" \\\n  -d "{\\"action\\":\\"generate\\",\\"preset\\":\\"Chill Pad\\",\\"play_when\\":\\"now\\"}"</code></pre>',
-    apiPsTitle: "PowerShell",
-    apiPsBody:
-      '<pre><code>$api = "http://127.0.0.1:8787"\nInvoke-RestMethod -Method Post "$api/api/control" -ContentType "application/json" -Body (@{\n  action = "generate"\n  preset = "Chill Pad"\n  play_when = "now"\n} | ConvertTo-Json)</code></pre>',
-    apiIdsTitle: "IDの調べ方",
-    apiIdsBody:
-      "<ul><li><code>GET /api/favorites</code> — プリセット（name または id）</li><li><code>GET /api/songs</code> — 単曲</li><li><code>GET /api/streams</code> — ストリームセッション</li><li><code>GET /api/uploads</code> — アップロードした音声</li></ul><p>ファイルアップロード: <code>POST /api/uploads</code>（multipart <code>file</code>）</p>",
-    apiFieldsTitle: "主なフィールド",
-    apiFieldsBody:
-      "<ul><li><code>action</code> — generate / stream / play / stop</li><li><code>prompt</code> または <code>preset</code></li><li><code>duration</code> — 秒（モデル上限あり）</li><li><code>play_when</code> — now / after_current</li><li><code>crossfade_seconds</code> — 0–10</li><li><code>output_format</code> — opus / mp3 / aac / wav</li><li>play 時は <code>generation_id</code> / <code>stream_id</code> / <code>upload_id</code> のいずれか1つ</li></ul>",
-    apiTipTitle: "配信での定番",
-    apiTipBody:
-      "ベッドはプリセットに保存。イントロ／ジングル／BRB は Uploads に入れて id を控える。Stream Deck に generate・stream・play intro・stop を割り当て。<code>after_current</code> で今の曲のあとにジングルを挟めます。",
-    footer:
-      'ソースとリリース: <a href="https://github.com/amakann/nirai-flux">amakann/nirai-flux</a>（Pre-release を含む）。',
+      "ローカルスタジオ API の OpenAPI リファレンス。起動中の <code>http://127.0.0.1:8787</code> に対して Try it out できます。",
+    apiSpecNote:
+      '仕様書: <a href="openapi-ja.yaml">openapi-ja.yaml</a> · <a href="openapi.yaml">openapi.yaml</a> · <a href="openapi.json">openapi.json</a>',
   },
   en: {
     metaTitle: "Nirai Flux — stream your own BGM, on your PC",
     metaDesc:
-      "A local AI music studio for streamers. Prompt any genre and keep original tracks playing on your own computer. Stable Audio 3 runs locally — nothing is sent to a cloud music API.",
+      "A local AI music studio for streamers. Generate on your PC. Guest: 5 songs. Free account: 100. Pro: ¥980 one-time for unlimited generations.",
     eyebrow: "Local AI music studio for streamers",
     heroTitle: "Keep your own music playing.<br />On your PC, without stopping.",
-    lede: "Built for streamers. Write a prompt, pick a genre, and <strong>stream new takes on your own computer</strong>. <strong>Stable Audio 3</strong> runs locally. Nothing is sent to a cloud music API.",
+    lede: "Built for streamers. Write a prompt, pick a genre, and <strong>generate on your own computer</strong>. <strong>Stable Audio 3</strong> runs locally — nothing is sent to a cloud music API. Accounts are optional.",
     download: "Download for Windows",
     presets: "Presets",
-    formatColon: "Format:",
     play: "Play",
     pause: "Pause",
     demoCaption: "Pick a preset and play. Your genre, your vibe, your machine.",
@@ -114,6 +126,9 @@ const COPY = {
     tocDemo: "Demo",
     tocFeatures: "Features",
     tocUses: "Good fits",
+    tocPricing: "Pricing",
+    tocHowTo: "How to use",
+    tocCreator: "Creator",
     tocNeed: "Requirements",
     tocDownload: "Download",
     featuresTitle: "Features",
@@ -126,6 +141,15 @@ const COPY = {
     feat3Title: "Uploads and jingles",
     feat3Body:
       "Upload any audio and play it. Run an intro or jingle first, then crossfade into generated BGM.",
+    feat4Title: "Pick your output format",
+    feat4Body:
+      "Choose OPUS, AAC, MP3, or WAV — from lightweight streaming codecs to uncompressed files for editing.",
+    feat5Title: "Presets",
+    feat5Body:
+      "Save settings you like as presets and switch them to match your stream or session flow.",
+    feat6Title: "Play generated songs anytime",
+    feat6Body:
+      "Songs you make are saved. You don’t have to generate them again for every stream. Playing a track never uses another generation.",
     usesTitle: "Good fits",
     use1Title: "Live-stream BGM",
     use1Body:
@@ -139,6 +163,35 @@ const COPY = {
     use4Title: "Composition sketches",
     use4Body:
       "Try directions with prompts, export takes you like, and use them as a starting point for writing.",
+    pricingTitle: "Pricing",
+    pricingLede:
+      "Accounts are optional. Generation still runs on your machine. Sign-in only tracks who you are, how many songs you’ve made, and whether Pro is unlocked.",
+    pricingGuestTitle: "Guest",
+    pricingGuestPrice: "Free",
+    pricingGuestGen: "5 songs",
+    pricingFreeTitle: "Free account",
+    pricingFreePrice: "Free",
+    pricingFreeGen: "100 songs",
+    pricingProTitle: "Pro",
+    pricingProGen: "Unlimited",
+    pricingProPrice: '<span class="pricing-was">¥2,980</span> <strong>¥980</strong>',
+    pricingRowGen: "Generations",
+    pricingRowPrice: "Price",
+    howToTitle: "How to use",
+    howTo1: "Generate without signing in — up to 5 songs on this PC.",
+    howTo2:
+      "Click the quota / Account button → <strong>Continue with Google</strong> or email + password. Free accounts get 100 generations (saved online, so reinstalling does not reset them).",
+    howTo3:
+      "Click <strong>Upgrade</strong> to buy Pro (¥980, launch sale). After Stripe checkout, return to the app — generations become unlimited.",
+    howToSignIn: "Sign-in is Google or email/password. If a Google popup is blocked, use email.",
+    howToStudio:
+      "Open the studio (usually <code>http://127.0.0.1:8787</code>). The top bar shows remaining songs and Account.",
+    creatorTitle: "About the creator",
+    creatorPhotoAlt: "Portrait of the app creator",
+    creatorRole: "Software Engineer & Sound Engineer · Tokyo",
+    creatorBio1:
+      "Plays in Funeral Doom band Funeral Moth, Post-Metal band Presence of Soul, and Hardcore / Grindcore band Guede.",
+    creatorBio2: "Runs the private music studio Studio Kamiokande.",
     needTitle: "System requirements",
     smallTitle: "Small Music",
     smallTag: "Lighter PCs",
@@ -159,41 +212,13 @@ const COPY = {
     needOs: "Windows. NVIDIA or Intel Arc / Xe (e.g. Arc 140V).",
     navApi: "API Doc",
     navHome: "Home",
-    apiMetaTitle: "Nirai Flux API Doc — Stream Deck / OBS automation",
+    apiMetaTitle: "Nirai Flux API — OpenAPI",
     apiMetaDesc:
-      "Local HTTP API for Nirai Flux. Generate, stream, play, and stop from Stream Deck, OBS, or curl.",
-    apiTitle: "API Doc",
+      "OpenAPI reference for the Nirai Flux local HTTP API. Generate, stream, play, and stop from Stream Deck, OBS, or curl.",
+    apiTitle: "API Reference",
     apiLede:
-      "While the studio tab is open, drive generation and playback over a local HTTP API — from Stream Deck, OBS, chat bots, or scripts.",
-    apiBeforeTitle: "Before you start",
-    apiBeforeBody:
-      "<ol><li>Nirai Flux is running and the model is Ready.</li><li>The studio is open in a browser (usually <code>http://127.0.0.1:8787</code>). If that tab is closed, commands queue and nothing plays.</li><li>Keep port <strong>8787</strong> on localhost, LAN, or VPN. Do not put it on the public internet.</li></ol>",
-    apiActionsTitle: "What you can automate",
-    apiActionsBody:
-      "<ul><li><strong>generate</strong> — make one track from a prompt or preset, then play</li><li><strong>stream</strong> — keep generating new takes (continuous bed)</li><li><strong>play</strong> — play an existing song, stream, or upload</li><li><strong>stop</strong> — stop playback and an active stream</li></ul><p><code>play_when</code> is <code>now</code> (start ASAP / crossfade) or <code>after_current</code> (wait for the current track).</p>",
-    apiEndpointTitle: "Endpoint",
-    apiEndpointBody:
-      "<p>POST JSON to <code>http://127.0.0.1:8787/api/control</code>. <code>GET /api/control</code> returns the last command.</p>",
-    apiExamplesTitle: "Examples",
-    apiExamplesBody:
-      "<p>One track from a preset:</p><pre><code>{\"action\":\"generate\",\"preset\":\"Chill Pad\",\"play_when\":\"now\"}</code></pre><p>Continuous stream:</p><pre><code>{\"action\":\"stream\",\"preset\":\"Chill Pad\",\"crossfade_seconds\":3,\"play_when\":\"now\"}</code></pre><p>Play an uploaded intro:</p><pre><code>{\"action\":\"play\",\"upload_id\":\"PASTE_ID_HERE\",\"play_when\":\"now\"}</code></pre><p>Stop:</p><pre><code>{\"action\":\"stop\"}</code></pre>",
-    apiCurlTitle: "curl",
-    apiCurlBody:
-      '<pre><code>curl -s http://127.0.0.1:8787/api/control \\\n  -H "Content-Type: application/json" \\\n  -d "{\\"action\\":\\"generate\\",\\"preset\\":\\"Chill Pad\\",\\"play_when\\":\\"now\\"}"</code></pre>',
-    apiPsTitle: "PowerShell",
-    apiPsBody:
-      '<pre><code>$api = "http://127.0.0.1:8787"\nInvoke-RestMethod -Method Post "$api/api/control" -ContentType "application/json" -Body (@{\n  action = "generate"\n  preset = "Chill Pad"\n  play_when = "now"\n} | ConvertTo-Json)</code></pre>',
-    apiIdsTitle: "Look up IDs",
-    apiIdsBody:
-      "<ul><li><code>GET /api/favorites</code> — presets (name or id)</li><li><code>GET /api/songs</code> — single tracks</li><li><code>GET /api/streams</code> — stream sessions</li><li><code>GET /api/uploads</code> — uploaded files</li></ul><p>Upload a file: <code>POST /api/uploads</code> (multipart <code>file</code>)</p>",
-    apiFieldsTitle: "Main fields",
-    apiFieldsBody:
-      "<ul><li><code>action</code> — generate / stream / play / stop</li><li><code>prompt</code> or <code>preset</code></li><li><code>duration</code> — seconds (capped by model)</li><li><code>play_when</code> — now / after_current</li><li><code>crossfade_seconds</code> — 0–10</li><li><code>output_format</code> — opus / mp3 / aac / wav</li><li>For play: exactly one of <code>generation_id</code>, <code>stream_id</code>, or <code>upload_id</code></li></ul>",
-    apiTipTitle: "Typical live setup",
-    apiTipBody:
-      "Save beds as presets. Drop intros / stingers / BRB into Uploads and copy each id. Bind Stream Deck keys for generate, stream, play intro, and stop. Use <code>after_current</code> for a stinger that should wait.",
-    footer:
-      'Source and releases: <a href="https://github.com/amakann/nirai-flux">amakann/nirai-flux</a> (include Pre-release).',
+      "OpenAPI reference for the local studio API. Use Try it out against your running instance at <code>http://127.0.0.1:8787</code>.",
+    apiSpecNote: 'Spec: <a href="openapi.yaml">openapi.yaml</a> · <a href="openapi.json">openapi.json</a>',
   },
 };
 

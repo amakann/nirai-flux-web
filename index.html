@@ -111,6 +111,15 @@
             <a class="toc-link" href="#use-cases" data-i18n="tocUses">向いている使い方</a>
           </li>
           <li>
+            <a class="toc-link" href="#pricing" data-i18n="tocPricing">料金</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#how-to" data-i18n="tocHowTo">使い方</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#creator" data-i18n="tocCreator">制作者</a>
+          </li>
+          <li>
             <a class="toc-link" href="#requirements" data-i18n="tocNeed">必要環境</a>
           </li>
           <li>
@@ -136,6 +145,15 @@
             <a class="toc-link" href="#use-cases" data-i18n="tocUses">向いている使い方</a>
           </li>
           <li>
+            <a class="toc-link" href="#pricing" data-i18n="tocPricing">料金</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#how-to" data-i18n="tocHowTo">使い方</a>
+          </li>
+          <li>
+            <a class="toc-link" href="#creator" data-i18n="tocCreator">制作者</a>
+          </li>
+          <li>
             <a class="toc-link" href="#requirements" data-i18n="tocNeed">必要環境</a>
           </li>
           <li>
@@ -149,8 +167,9 @@
         <p class="eyebrow" data-i18n="eyebrow">配信者のためのローカルAI音楽スタジオ</p>
         <h1 data-i18n-html="heroTitle">自分のパソコンで、<br />好きな音楽をずっと流せる。</h1>
         <p class="lede" data-i18n-html="lede">
-          配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCから切れ目なくストリーミング。
-          <strong>Stable Audio 3</strong> がローカルで生成するので、クラウドの音楽APIには何も送りません。
+          配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCで生成。
+          <strong>Stable Audio 3</strong> がローカルで動くので、クラウドの音楽APIには何も送りません。
+          アカウントは任意です。
         </p>
         <div class="cta">
           <a
@@ -171,9 +190,6 @@
             </div>
             <div class="current-heading">
               <h2 id="demo-title">Kawaii Chat Pop</h2>
-              <div class="meta-line">
-                <span><strong data-i18n="formatColon">フォーマット:</strong> OPUS</span>
-              </div>
             </div>
           </div>
           <div class="player">
@@ -220,13 +236,31 @@
             <h3 data-i18n="feat2Title">API・OBS・Stream Deck対応</h3>
             <p data-i18n-html="feat2Body">
               ローカル HTTP API で Generate / Stream / Play / Stop を操作できます。OBS や Stream Deck、チャット連携からも同じエンドポイントを叩けます。
-              <a href="api.html">API Doc</a>
+              <a href="api.html">API ドキュメント</a>
             </p>
           </article>
           <article class="feature-card">
             <h3 data-i18n="feat3Title">任意の音楽をアップロード</h3>
             <p data-i18n="feat3Body">
               好きな音声をアップロードして再生できます。配信のイントロやジングルを流してから、生成BGMへクロスフェードで切り替えることも可能です。
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3 data-i18n="feat4Title">出力フォーマットを選択</h3>
+            <p data-i18n="feat4Body">
+              OPUS、AAC、MP3、WAV から選べます。配信用の軽量コーデックから、編集用の非圧縮まで用途に合わせて書き出せます。
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3 data-i18n="feat5Title">プリセット</h3>
+            <p data-i18n="feat5Body">
+              気に入った設定をプリセットとして保存。枠の流れに合わせて切り替えられます。
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3 data-i18n="feat6Title">作った曲は何度でも再生</h3>
+            <p data-i18n="feat6Body">
+              一度つくった曲は残ります。配信のたびに作り直す必要はありません。何回再生しても、生成回数は増えません。
             </p>
           </article>
         </div>
@@ -260,6 +294,79 @@
             </p>
           </article>
         </div>
+      </section>
+
+      <section class="section" id="pricing" aria-labelledby="pricing-title">
+        <h2 class="section-title" id="pricing-title" data-i18n="pricingTitle">料金</h2>
+        <p class="section-lede" data-i18n="pricingLede">
+          アカウントは任意。生成は自分のPC上。ログインは「誰か」「何曲作ったか」「Pro か」だけをクラウドで管理します。
+        </p>
+        <div class="compare-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col" data-i18n="pricingGuestTitle">ゲスト</th>
+                <th scope="col" data-i18n="pricingFreeTitle">無料アカウント</th>
+                <th scope="col" data-i18n="pricingProTitle">Pro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" data-i18n="pricingRowGen">生成</th>
+                <td data-i18n="pricingGuestGen">5曲</td>
+                <td data-i18n="pricingFreeGen">100曲</td>
+                <td data-i18n="pricingProGen">無制限</td>
+              </tr>
+              <tr>
+                <th scope="row" data-i18n="pricingRowPrice">価格</th>
+                <td data-i18n="pricingGuestPrice">無料</td>
+                <td data-i18n="pricingFreePrice">無料</td>
+                <td data-i18n-html="pricingProPrice">
+                  <span class="pricing-was">¥2,980</span> <strong>¥980</strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="how-to" aria-labelledby="how-to-title">
+        <h2 class="section-title" id="how-to-title" data-i18n="howToTitle">使い方</h2>
+        <ol class="how-to-list">
+          <li data-i18n="howTo1">ログインせずに生成 — このPCで最大 5 曲。</li>
+          <li data-i18n-html="howTo2">
+            残り曲数 / アカウント → <strong>Google で続ける</strong>、またはメール＋パスワード。無料アカウントは 100 曲（サーバー保存なので再インストールしてもリセットされません）。
+          </li>
+          <li data-i18n-html="howTo3">
+            <strong>アップグレード</strong> で Pro を購入（ローンチセール ¥980）。Stripe 決済後、アプリに戻ると生成が無制限になります。
+          </li>
+        </ol>
+        <p class="quiet" data-i18n="howToSignIn">ログインは Google またはメール。Google のポップアップがブロックされたらメールでどうぞ。</p>
+        <p class="quiet" data-i18n-html="howToStudio">
+          スタジオは通常 <code>http://127.0.0.1:8787</code>。トップバーに残り曲数とアカウントが出ます。
+        </p>
+      </section>
+
+      <section class="section creator-section" id="creator" aria-labelledby="creator-title">
+        <h2 class="section-title" id="creator-title" data-i18n="creatorTitle">制作者</h2>
+        <article class="creator-card">
+          <img
+            class="creator-photo"
+            src="creator.jpg"
+            width="320"
+            height="480"
+            alt=""
+            data-i18n-alt="creatorPhotoAlt"
+          />
+          <div class="creator-copy">
+            <p class="creator-role" data-i18n="creatorRole">Software Engineer & Sound Engineer · Tokyo</p>
+            <p data-i18n="creatorBio1">
+              Funeral Doom バンド Funeral Moth、Post-Metal バンド Presence of Soul、Hardcore / Grindcore バンド Guede で演奏しています。
+            </p>
+            <p data-i18n="creatorBio2">プライベートスタジオ Studio Kamiokande を運営しています。</p>
+          </div>
+        </article>
       </section>
 
       <section class="panel" id="requirements">
@@ -328,13 +435,5 @@
       </section>
     </main>
     </div>
-
-    <footer>
-      <p data-i18n-html="footer">
-        ソースとリリース:
-        <a href="https://github.com/amakann/nirai-flux">amakann/nirai-flux</a>
-        （Pre-release を含む）。
-      </p>
-    </footer>
   </body>
 </html>

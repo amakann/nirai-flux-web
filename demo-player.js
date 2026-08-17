@@ -203,7 +203,7 @@
     function renderList() {
       listEl.innerHTML = PRESETS.map(function (p) {
         var dur = durations[p.id];
-        var sub = (dur ? formatClock(dur) + " · " : "") + "OPUS";
+        var sub = dur ? formatClock(dur) : "";
         return (
           '<div class="history-item' +
           (p.id === currentId ? " active" : "") +
@@ -219,9 +219,9 @@
           "</button>" +
           "<div><p>" +
           p.name +
-          '</p><div class="sub">' +
-          sub +
-          "</div></div></div>"
+          "</p>" +
+          (sub ? '<div class="sub">' + sub + "</div>" : "") +
+          "</div></div>"
         );
       }).join("");
       refreshLabels();

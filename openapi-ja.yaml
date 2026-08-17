@@ -1,0 +1,253 @@
+openapi: 3.0.3
+info:
+  title: Nirai Flux ローカル API
+  description: |
+    Nirai Flux のローカル HTTP API。Stream Deck、OBS、チャットボット、スクリプトから生成と再生を操作します。スタジオタブが開いている必要があります。
+
+    **ベース URL:** `http://127.0.0.1:8787`（localhost のみ — 公開インターネットに公開しないでください）
+
+    **要件**
+    - Nirai Flux が起動し、モデルが Ready 状態であること
+    - ブラウザでベース URL のスタジオタブが開いていること。タブを閉じるとコマンドはキューに入るだけで再生されません
+  version: 1.0.0
+  contact:
+    name: Nirai Flux
+    url: https://github.com/amakann/nirai-flux
+
+servers:
+  - url: http://127.0.0.1:8787
+    description: ローカルスタジオ（既定）
+
+tags:
+  - name: Control
+    description: Generate / Stream / Play / Stop
+  - name: Library
+    description: プリセット、曲、ストリーム、アップロード
+
+paths:
+  /api/control:
+    get:
+      tags: [Control]
+      summary: 最後の制御コマンドを取得
+      description: スタジオに送られた最後のコマンド（`seq` + `command`）を返します。
+      operationId: getControl
+      responses:
+        "200":
+          description: 最後のコマンド
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlStatus"
+    post:
+      tags: [Control]
+      summary: 制御コマンドを送信
+      description: |
+        自動化のメインエンドポイント。JSON で generate / stream / play / stop を送ります。
+
+        `play` では `generation_id`、`stream_id`、`upload_id` のいずれか1つだけを指定してください。
+      operationId: postControl
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ControlCommand"
+            examples:
+              generatePreset:
+                summary: プリセットから生成
+                value:
+                  action: generate
+                  preset: Chill Pad
+                  play_when: now
+              stream:
+                summary: 連続ストリーム
+                value:
+                  action: stream
+                  preset: Chill Pad
+                  crossfade_seconds: 3
+                  play_when: now
+              playUpload:
+                summary: アップロードしたイントロを再生
+                value:
+                  action: play
+                  upload_id: PASTE_ID_HERE
+                  play_when: now
+              stop:
+                summary: 再生とストリームを停止
+                value:
+                  action: stop
+      responses:
+        "200":
+          description: コマンドを受け付けました
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
+  /api/favorites:
+    get:
+      tags: [Library]
+      summary: プリセット一覧
+      description: Presets タブに保存されたプリセット。制御コマンドでは `name` または `id` を使います。
+      operationId: listFavorites
+      responses:
+        "200":
+          description: プリセット一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Preset"
+
+  /api/songs:
+    get:
+      tags: [Library]
+      summary: 生成済み曲一覧
+      operationId: listSongs
+      responses:
+        "200":
+          description: 曲一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Song"
+
+  /api/streams:
+    get:
+      tags: [Library]
+      summary: ストリームセッション一覧
+      operationId: listStreams
+      responses:
+        "200":
+          description: ストリームセッション一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StreamSession"
+
+  /api/uploads:
+    get:
+      tags: [Library]
+      summary: アップロードファイル一覧
+      operationId: listUploads
+      responses:
+        "200":
+          description: アップロード一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Upload"
+    post:
+      tags: [Library]
+      summary: 音声ファイルをアップロード
+      operationId: uploadFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: アップロードを作成しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Upload"
+
+components:
+  schemas:
+    ControlCommand:
+      type: object
+      required: [action]
+      properties:
+        action:
+          type: string
+          enum: [generate, stream, play, stop]
+        prompt:
+          type: string
+          description: generate / stream で必須（`preset` を指定する場合は不要）
+        preset:
+          type: string
+          description: "`/api/favorites` のプリセット名または id"
+        duration:
+          type: integer
+          minimum: 60
+          maximum: 380
+          description: 曲の長さ（秒）。有効モデルの上限でクリップされます
+        play_when:
+          type: string
+          enum: [now, after_current]
+          default: now
+          description: "`now` はすぐ開始（再生中ならクロスフェード）。`after_current` は現在の曲の後"
+        crossfade_seconds:
+          type: number
+          minimum: 0
+          maximum: 10
+        crossfade_enabled:
+          type: boolean
+        negative_prompt:
+          type: string
+        output_format:
+          type: string
+          enum: [opus, mp3, aac, wav]
+        generation_id:
+          type: string
+          description: "`/api/songs` の曲 id（play のみ）"
+        stream_id:
+          type: string
+          description: "`/api/streams` のストリーム id（play のみ）"
+        upload_id:
+          type: string
+          description: "`/api/uploads` のアップロード id（play のみ）"
+
+    ControlStatus:
+      type: object
+      properties:
+        seq:
+          type: integer
+        command:
+          $ref: "#/components/schemas/ControlCommand"
+
+    Preset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    Song:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    StreamSession:
+      type: object
+      properties:
+        stream_id:
+          type: string
+
+    Upload:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
