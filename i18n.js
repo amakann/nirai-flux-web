@@ -125,6 +125,8 @@ const COPY = {
     accountLeftChip: "残り {{count}} 曲",
     accountUpgradeSale: "Pro にアップグレード {{sale}}（定価 {{regular}}）",
     accountUpgradeRegular: "Pro にアップグレード {{price}}",
+    accountFirebaseLoadFailed:
+      "Google ログイン用の Firebase を読み込めませんでした。広告ブロッカーで gstatic.com を許可するか、メールでログインしてください。",
     accountGoogleBlocked: "Google のポップアップがブロックされました。メールでログインするか、もう一度試してください。",
     accountUnauthorizedDomain: "このアドレスでは Google ログインがまだ許可されていません。メールでログインしてください。",
     accountBadPassword: "メールまたはパスワードが違います。",
@@ -272,6 +274,8 @@ const COPY = {
     accountLeftChip: "{{count}} left",
     accountUpgradeSale: "Upgrade to Pro {{sale}} (was {{regular}})",
     accountUpgradeRegular: "Upgrade to Pro {{price}}",
+    accountFirebaseLoadFailed:
+      "Could not load Firebase for Google sign-in. Allow gstatic.com in blockers, or use email and password.",
     accountGoogleBlocked: "Google sign-in was interrupted. Try again, or use email and password.",
     accountUnauthorizedDomain: "Google sign-in is not allowed on this address yet. Use email and password.",
     accountBadPassword: "Email or password is incorrect.",

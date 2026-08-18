@@ -1,15 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-import {
-  GoogleAuthProvider,
-  createUserWithEmailAndPassword,
-  getAuth,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-} from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBjjWwMpyuWzURu-UyOuJriWFsXzDrJJjw",
   authDomain: "nirai-flux-4d2c8.firebaseapp.com",
@@ -17,12 +5,42 @@ const FIREBASE_CONFIG = {
   appId: "1:844776605672:web:a805ecb395083f3520865d",
 };
 
+const FIREBASE_APP_URL = "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+const FIREBASE_AUTH_URL = "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 const CLOUD = "https://asia-northeast1-nirai-flux-4d2c8.cloudfunctions.net";
 const SESSION_KEY = "nirai.auth.session";
 
-const app = initializeApp(FIREBASE_CONFIG);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+let auth = null;
+let provider = null;
+let firebaseApi = null;
+let firebaseReady = null;
+
+function loadFirebase() {
+  if (firebaseReady) return firebaseReady;
+  firebaseReady = Promise.all([import(FIREBASE_APP_URL), import(FIREBASE_AUTH_URL)])
+    .then(function (mods) {
+      const appMod = mods[0];
+      const authMod = mods[1];
+      firebaseApi = {
+        createUserWithEmailAndPassword: authMod.createUserWithEmailAndPassword,
+        getRedirectResult: authMod.getRedirectResult,
+        onAuthStateChanged: authMod.onAuthStateChanged,
+        sendPasswordResetEmail: authMod.sendPasswordResetEmail,
+        signInWithEmailAndPassword: authMod.signInWithEmailAndPassword,
+        signInWithPopup: authMod.signInWithPopup,
+        signInWithRedirect: authMod.signInWithRedirect,
+        signOut: authMod.signOut,
+      };
+      auth = authMod.getAuth(appMod.initializeApp(FIREBASE_CONFIG));
+      provider = new authMod.GoogleAuthProvider();
+      return auth;
+    })
+    .catch(function (err) {
+      firebaseReady = null;
+      throw err;
+    });
+  return firebaseReady;
+}
 
 const state = {
   user: null,
@@ -114,7 +132,7 @@ function consumeAuthRedirect() {
 }
 
 async function idToken() {
-  if (auth.currentUser) return auth.currentUser.getIdToken();
+  if (auth && auth.currentUser) return auth.currentUser.getIdToken();
   try {
     const raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return null;
@@ -273,13 +291,6 @@ function closeModal() {
   document.body.style.overflow = "";
 }
 
-function bridgeUrl() {
-  const url = new URL("https://nirai-flux-4d2c8.firebaseapp.com/auth-bridge.html");
-  url.searchParams.set("origin", location.origin);
-  url.searchParams.set("return", checkoutReturnUrl());
-  return url.toString();
-}
-
 async function refreshEntitlements() {
   const token = await idToken();
   if (!token) {
@@ -332,15 +343,26 @@ async function confirmPurchaseIfNeeded() {
 async function onGoogle() {
   setBusy(true);
   state.error = null;
+  render();
   try {
-    await signInWithPopup(auth, provider);
+    await loadFirebase();
+    await firebaseApi.signInWithPopup(auth, provider);
   } catch (err) {
     const code = err && err.code ? String(err.code) : "";
-    if (code === "auth/popup-blocked" || code === "auth/unauthorized-domain") {
-      location.assign(bridgeUrl());
-      return;
+    const message = err instanceof Error ? err.message : String(err || "");
+    if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") {
+      state.error = firebaseAuthError(err);
+    } else if (/Failed to fetch|dynamically imported module|Importing a module script failed/i.test(message)) {
+      state.error = t("accountFirebaseLoadFailed");
+    } else {
+      try {
+        await loadFirebase();
+        await firebaseApi.signInWithRedirect(auth, provider);
+        return;
+      } catch (redirectErr) {
+        state.error = firebaseAuthError(redirectErr);
+      }
     }
-    state.error = firebaseAuthError(err);
   } finally {
     setBusy(false);
     render();
@@ -360,8 +382,12 @@ async function onEmail(event) {
   setBusy(true);
   state.error = null;
   try {
-    if (state.mode === "register") await createUserWithEmailAndPassword(auth, email, password);
-    else await signInWithEmailAndPassword(auth, email, password);
+    await loadFirebase();
+    if (state.mode === "register") {
+      await firebaseApi.createUserWithEmailAndPassword(auth, email, password);
+    } else {
+      await firebaseApi.signInWithEmailAndPassword(auth, email, password);
+    }
   } catch (err) {
     state.error = firebaseAuthError(err);
   } finally {
@@ -376,7 +402,8 @@ async function onReset(event) {
   setBusy(true);
   state.error = null;
   try {
-    await sendPasswordResetEmail(auth, email, { url: checkoutReturnUrl() });
+    await loadFirebase();
+    await firebaseApi.sendPasswordResetEmail(auth, email, { url: checkoutReturnUrl() });
     state.notice = t("accountResetSent");
   } catch (err) {
     state.error = firebaseAuthError(err);
@@ -407,7 +434,7 @@ async function onUpgrade() {
 }
 
 async function onSignOut() {
-  await signOut(auth);
+  if (auth && firebaseApi) await firebaseApi.signOut(auth);
   localStorage.removeItem(SESSION_KEY);
   state.user = null;
   state.entitlements = null;
@@ -477,15 +504,30 @@ function bind() {
 
 consumeAuthRedirect();
 bind();
-onAuthStateChanged(auth, function (user) {
-  state.user = user;
-  if (user) {
-    void saveSessionFromUser(user).then(refreshEntitlements);
-  } else {
-    state.entitlements = null;
+render();
+void (async function () {
+  try {
+    await loadFirebase();
+    const cred = await firebaseApi.getRedirectResult(auth);
+    if (cred && cred.user) {
+      state.user = cred.user;
+      await saveSessionFromUser(cred.user);
+    }
+    firebaseApi.onAuthStateChanged(auth, function (user) {
+      state.user = user;
+      if (user) {
+        void saveSessionFromUser(user).then(refreshEntitlements);
+      } else {
+        state.entitlements = null;
+        render();
+      }
+    });
+    await refreshEntitlements();
+    await confirmPurchaseIfNeeded();
+    render();
+  } catch (err) {
+    console.error(err);
+    state.error = t("accountFirebaseLoadFailed");
     render();
   }
-});
-void refreshEntitlements();
-void confirmPurchaseIfNeeded();
-render();
+})();
