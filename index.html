@@ -22,7 +22,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Montserrat:wght@600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260818f" />
+    <link rel="stylesheet" href="styles.css?v=20260818g" />
     <style>
       html:not(.i18n-ready) body {
         visibility: hidden;
@@ -75,7 +75,13 @@
             </a>
           </div>
           <div class="topbar-actions">
-            <button type="button" class="nav-link nav-link--btn" id="account-open">Account</button>
+            <button type="button" class="nav-link nav-link--btn" id="account-open">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-3.5 3.6-6 8-6s8 2.5 8 6" />
+              </svg>
+              <span id="account-open-label" data-i18n="navAccount">Account</span>
+            </button>
             <a class="nav-link" href="api.html" data-i18n="navApi">API Doc</a>
             <div class="lang-switch" role="group" aria-label="Language">
               <button type="button" data-lang="ja" aria-pressed="true" aria-label="日本語" title="日本語">
@@ -492,6 +498,6 @@
       </div>
     </div>
 
-    <script type="module" src="account.js?v=20260818e"></script>
+    <script type="module" src="account.js?v=20260818g"></script>
   </body>
 </html>

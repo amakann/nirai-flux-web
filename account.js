@@ -187,6 +187,7 @@ function firebaseAuthError(err) {
 function els() {
   return {
     open: document.getElementById("account-open"),
+    openLabel: document.getElementById("account-open-label"),
     backdrop: document.getElementById("account-modal"),
     title: document.getElementById("account-title"),
     signedOut: document.getElementById("account-signed-out"),
@@ -235,10 +236,11 @@ function render() {
   const left = features.generations_left;
   const email = (state.user && state.user.email) || (state.entitlements && state.entitlements.email) || "";
 
-  if (!signedIn) node.open.textContent = t("navAccount");
-  else if (isPro) node.open.textContent = t("accountProChip");
-  else if (typeof left === "number") node.open.textContent = t("accountLeftChip", { count: String(left) });
-  else node.open.textContent = t("navAccount");
+  const openLabel = node.openLabel || node.open;
+  if (!signedIn) openLabel.textContent = t("navAccount");
+  else if (isPro) openLabel.textContent = t("accountProChip");
+  else if (typeof left === "number") openLabel.textContent = t("accountLeftChip", { count: String(left) });
+  else openLabel.textContent = t("navAccount");
 
   const showReset = !signedIn && state.mode === "reset";
   node.signedOut.hidden = signedIn || showReset;
