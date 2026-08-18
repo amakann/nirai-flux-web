@@ -2,7 +2,7 @@
 
 Public marketing site for **Nirai Flux**, a local AI music studio.
 
-This repo is the landing page only. The desktop app lives in [`amakann/nirai-flux`](https://github.com/amakann/nirai-flux).
+This repo is the landing page only. The desktop app lives in the private [`amakann/nirai-flux`](https://github.com/amakann/nirai-flux) repo.
 
 ## Local preview
 
@@ -14,16 +14,14 @@ npx --yes serve .
 
 ## Download button
 
-The Windows button always points at the moving **test** channel:
+Windows installer (Cloudflare R2, public):
 
-`https://github.com/amakann/nirai-flux/releases/download/test/NiraiFlux-windows-x64-setup-TEST.exe`
+`https://nirai-flux.com/download/NiraiFlux-v1.0.0-x64-Setup.exe`
 
-That asset is overwritten on each desktop test publish, so this site does not need a version bump per release.
-
-The app repository is currently **private**, so GitHub may require sign-in (and repo access) to download.
+Version and URL are defined in `download-config.js`. When you ship a new beta, bump `version` there and in the app repo’s `desktop/src-tauri/tauri.conf.json`, then upload the new exe to R2 (see `nirai-flux/packaging/cloudflare/upload_windows.ps1`).
 
 ## Deploy
 
-Live site (GitHub Pages): **https://amakann.github.io/nirai-flux-web/**
+Live site: **https://nirai-flux.com** (GitHub Pages + custom domain)
 
 Static site from the repo root (`master`). `.nojekyll` is included so assets and paths work as-is.

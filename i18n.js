@@ -6,7 +6,7 @@ const COPY = {
     eyebrow: "配信者のためのローカルAI音楽スタジオ",
     heroTitle: "自分のパソコンで、<br />好きな音楽をずっと流せる。",
     lede: "配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCで生成。<strong>Stable Audio 3</strong> がローカルで動くので、クラウドの音楽APIには何も送りません。アカウントは任意です。",
-    download: "Coming soon",
+    download: "Windows版をダウンロード（ベータ {version}）",
     presets: "プリセット",
     play: "再生",
     pause: "一時停止",
@@ -153,7 +153,7 @@ const COPY = {
     eyebrow: "Local AI music studio for streamers",
     heroTitle: "Keep your own music playing.<br />On your PC, without stopping.",
     lede: "Built for streamers. Write a prompt, pick a genre, and <strong>generate on your own computer</strong>. <strong>Stable Audio 3</strong> runs locally — nothing is sent to a cloud music API. Accounts are optional.",
-    download: "Coming soon",
+    download: "Download for Windows (Beta {version})",
     presets: "Presets",
     play: "Play",
     pause: "Pause",
@@ -304,9 +304,26 @@ function detectLang() {
   return String(navigator.language || "").toLowerCase().startsWith("ja") ? "ja" : "en";
 }
 
+function formatCopy(value, vars) {
+  if (value == null) return value;
+  let text = String(value);
+  if (vars) {
+    for (const [name, val] of Object.entries(vars)) {
+      text = text.replaceAll(`{${name}}`, String(val));
+    }
+  }
+  return text;
+}
+
+function copyVars() {
+  const version = (window.NF_DOWNLOAD && window.NF_DOWNLOAD.version) || "1.0.0";
+  return { version };
+}
+
 function applyLang(lang) {
   const dict = COPY[lang];
   if (!dict) return;
+  const vars = copyVars();
 
   document.documentElement.lang = lang;
   localStorage.setItem("nf-lang", lang);
@@ -323,7 +340,7 @@ function applyLang(lang) {
 
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const value = dict[el.dataset.i18n];
-    if (value != null) el.textContent = value;
+    if (value != null) el.textContent = formatCopy(value, vars);
   });
   document.querySelectorAll("[data-i18n-html]").forEach((el) => {
     const value = dict[el.dataset.i18nHtml];
