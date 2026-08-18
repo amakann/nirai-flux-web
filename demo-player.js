@@ -111,9 +111,9 @@
       var ctx = canvas.getContext("2d");
       if (!ctx) return;
       var theme = getComputedStyle(document.documentElement);
-      var bg = theme.getPropertyValue("--wave-bg").trim() || "#1a1814";
-      var played = theme.getPropertyValue("--wave-played").trim() || "#41ddee";
-      var rest = theme.getPropertyValue("--wave-rest").trim() || "#5a564c";
+      var bg = theme.getPropertyValue("--wave-bg").trim() || "#0a121c";
+      var played = theme.getPropertyValue("--wave-played").trim() || "#4a82b0";
+      var rest = theme.getPropertyValue("--wave-rest").trim() || "#3a5068";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = bg;
