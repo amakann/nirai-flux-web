@@ -272,9 +272,8 @@ function closeModal() {
 }
 
 function bridgeUrl() {
-  const url = new URL("https://nirai-flux-4d2c8.web.app/auth-bridge.html");
+  const url = new URL("https://nirai-flux-4d2c8.firebaseapp.com/auth-bridge.html");
   url.searchParams.set("origin", location.origin);
-  url.searchParams.set("mode", "redirect");
   url.searchParams.set("return", checkoutReturnUrl());
   return url.toString();
 }
