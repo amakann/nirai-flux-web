@@ -62,24 +62,7 @@
       return;
     }
 
-    var jsonUrl =
-      currentLang() === "ja"
-        ? new URL("openapi-ja.yaml", window.location.href).href
-        : new URL("openapi.json", window.location.href).href;
-
-    fetch(jsonUrl)
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        var type = res.headers.get("content-type") || "";
-        if (type.indexOf("yaml") >= 0 || jsonUrl.endsWith(".yaml")) {
-          return res.text().then(function (text) {
-            throw new Error("yaml fetch fallback unavailable");
-          });
-        }
-        return res.json();
-      })
-      .then(mount)
-      .catch(showError);
+    showError(new Error("No inline spec found — include openapi-spec.js or openapi-spec-ja.js"));
   }
 
   var initScheduled = 0;

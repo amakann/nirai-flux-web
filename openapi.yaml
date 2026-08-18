@@ -76,6 +76,11 @@ paths:
                 summary: Stop playback and stream
                 value:
                   action: stop
+              volume:
+                summary: Set master volume
+                value:
+                  action: volume
+                  volume: 80
       responses:
         "200":
           description: Command accepted
@@ -176,7 +181,7 @@ components:
       properties:
         action:
           type: string
-          enum: [generate, stream, play, stop]
+          enum: [generate, stream, play, stop, volume]
         prompt:
           type: string
           description: Required for generate/stream unless `preset` is set
@@ -213,6 +218,12 @@ components:
         upload_id:
           type: string
           description: Upload id from `/api/uploads` (play only)
+        volume:
+          type: integer
+          minimum: 0
+          maximum: 100
+          default: 100
+          description: Master playback volume (0–100). Required when `action` is `volume`; optional on other actions to adjust volume before executing.
 
     ControlStatus:
       type: object

@@ -69,7 +69,7 @@ const COPY = {
     howToTitle: "使い方",
     howTo1: "ログインせずに生成 — このPCで最大 5 曲。",
     howTo2:
-      "このサイトまたはアプリの <strong>アカウント</strong> から Google またはメールでログイン。無料アカウントは 100 曲（サーバー保存なので再インストールしてもリセットされません）。",
+      "このサイトまたはアプリの <strong>アカウント</strong> から Google またはメールでログイン。無料枠は <strong>このPCあたり100曲</strong>（端末IDで管理するので、別メールで新規登録しても同じPCではリセットされません）。",
     howTo3:
       "<strong>アップグレード</strong> で Pro を購入（ローンチセール ¥980）。Stripe 決済後、同じアカウントでアプリを開くと生成が無制限になります。",
     howToSignIn: "ログインは Google またはメール。Google のポップアップがブロックされたらメールでどうぞ。",
@@ -216,7 +216,7 @@ const COPY = {
     howToTitle: "How to use",
     howTo1: "Generate without signing in — up to 5 songs on this PC.",
     howTo2:
-      "On this site or in the app, open <strong>Account</strong> → <strong>Continue with Google</strong> or email + password. Free accounts get 100 generations (saved online, so reinstalling does not reset them).",
+      "On this site or in the app, open <strong>Account</strong> → <strong>Continue with Google</strong> or email + password. Free tier is <strong>100 songs per PC</strong> (tracked by device ID — a new email on the same machine does not reset the limit).",
     howTo3:
       "Click <strong>Upgrade</strong> to buy Pro (¥980, launch sale). After Stripe checkout, the same account unlocks unlimited generations in the desktop app.",
     howToSignIn: "Sign-in is Google or email/password. If a Google popup is blocked, use email.",

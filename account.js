@@ -52,9 +52,9 @@ function yen(value) {
 
 function checkoutReturnUrl(extra) {
   const httpsOrigin =
-    location.protocol === "https:" ? location.origin : "https://amakann.github.io";
+    location.protocol === "https:" ? location.origin : "https://nirai-flux.com";
   const path =
-    location.protocol === "https:" ? location.pathname : "/nirai-flux-web/";
+    location.protocol === "https:" ? location.pathname : "/";
   const url = new URL(path, httpsOrigin);
   const lang = new URLSearchParams(location.search).get("lang");
   if (lang) url.searchParams.set("lang", lang);
@@ -262,12 +262,14 @@ function openModal(mode) {
   state.error = null;
   const node = els();
   node.backdrop.hidden = false;
+  document.documentElement.style.overflow = "hidden";
   document.body.style.overflow = "hidden";
   render();
 }
 
 function closeModal() {
   els().backdrop.hidden = true;
+  document.documentElement.style.overflow = "";
   document.body.style.overflow = "";
 }
 

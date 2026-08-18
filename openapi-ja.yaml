@@ -176,7 +176,7 @@ components:
       properties:
         action:
           type: string
-          enum: [generate, stream, play, stop]
+          enum: [generate, stream, play, stop, volume]
         prompt:
           type: string
           description: generate / stream で必須（`preset` を指定する場合は不要）
@@ -213,6 +213,12 @@ components:
         upload_id:
           type: string
           description: "`/api/uploads` のアップロード id（play のみ）"
+        volume:
+          type: integer
+          minimum: 0
+          maximum: 100
+          default: 100
+          description: マスター音量（0–100）。`action` が `volume` のとき必須。他のアクションでは実行前に音量を変える任意パラメータ
 
     ControlStatus:
       type: object
