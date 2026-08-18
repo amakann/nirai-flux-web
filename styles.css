@@ -648,6 +648,7 @@ html[lang="ja"] .hero h1 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   padding: 0.95rem 1.15rem;
   border: 0;
   border-radius: 14px;
@@ -659,6 +660,11 @@ html[lang="ja"] .hero h1 {
   text-decoration: none;
   box-shadow: none;
   transition: transform 140ms ease, background 140ms ease, opacity 140ms ease;
+}
+
+.btn svg {
+  flex-shrink: 0;
+  display: block;
 }
 
 .btn:hover {

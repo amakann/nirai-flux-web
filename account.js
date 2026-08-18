@@ -131,16 +131,65 @@ function consumeAuthRedirect() {
   }
 }
 
-async function idToken() {
-  if (auth && auth.currentUser) return auth.currentUser.getIdToken();
+let refreshInFlight = null;
+
+function loadSession() {
   try {
     const raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    return parsed && parsed.idToken ? parsed.idToken : null;
+    if (!parsed || !parsed.idToken) return null;
+    return parsed;
   } catch {
     return null;
   }
+}
+
+function saveLocalSession(session) {
+  if (!session) localStorage.removeItem(SESSION_KEY);
+  else localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+}
+
+async function refreshLocalSession(session) {
+  const res = await fetch(
+    "https://securetoken.googleapis.com/v1/token?key=" + encodeURIComponent(FIREBASE_CONFIG.apiKey),
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body:
+        "grant_type=refresh_token&refresh_token=" + encodeURIComponent(session.refreshToken || ""),
+    },
+  );
+  const data = await res.json().catch(function () {
+    return {};
+  });
+  if (!res.ok || !data.id_token) {
+    saveLocalSession(null);
+    return null;
+  }
+  const next = {
+    idToken: data.id_token,
+    refreshToken: data.refresh_token || session.refreshToken,
+    expiresAt: Date.now() + Math.max(60, Number(data.expires_in) || 3600) * 1000,
+    email: session.email || null,
+    uid: session.uid,
+  };
+  saveLocalSession(next);
+  return next.idToken;
+}
+
+async function idToken() {
+  if (auth && auth.currentUser) return auth.currentUser.getIdToken();
+  const session = loadSession();
+  if (!session) return null;
+  if (!session.refreshToken) return session.idToken;
+  if (Date.now() < (session.expiresAt || 0) - 60 * 1000) return session.idToken;
+  if (!refreshInFlight) {
+    refreshInFlight = refreshLocalSession(session).finally(function () {
+      refreshInFlight = null;
+    });
+  }
+  return refreshInFlight;
 }
 
 async function cloud(path, options) {
