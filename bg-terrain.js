@@ -381,6 +381,24 @@
     },
   ];
 
+  DESIGNS = DESIGNS.map(function (d, i) {
+    var beams = [
+      [58, 111, 154],
+      [74, 130, 176],
+      [47, 95, 133],
+    ][i % 3];
+    return Object.assign({}, d, {
+      base: [6, 9, 16],
+      lift: [10, 18, 30],
+      glow: [18, 48, 78],
+      glowBoost: [36, 78, 118],
+      beamRgb: beams,
+      beamMid: [24, 56, 88],
+      particleRgb: [138, 168, 196],
+      veil: [0.22, 0.3, 0.44],
+    });
+  });
+
   var designIndex = (Math.random() * DESIGNS.length) | 0;
   var D = DESIGNS[designIndex];
 
@@ -500,7 +518,7 @@
     octx.putImageData(img, 0, 0);
 
     if (solid) {
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = "#060910";
       ctx.fillRect(0, 0, W, H);
     } else {
       ctx.fillStyle = "rgba(0, 0, 0, " + D.trail + ")";
