@@ -266,10 +266,85 @@ function els() {
   };
 }
 
+const PENDING_KEY = "nirai.pending.action";
+let pendingAction = null;
+try {
+  pendingAction = sessionStorage.getItem(PENDING_KEY);
+} catch {
+  pendingAction = null;
+}
+
+function setPending(action) {
+  pendingAction = action || null;
+  try {
+    if (action) sessionStorage.setItem(PENDING_KEY, action);
+    else sessionStorage.removeItem(PENDING_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+function windowsDownloadUrl() {
+  if (window.NF_DOWNLOAD && typeof window.NF_DOWNLOAD.windowsUrl === "function") {
+    return window.NF_DOWNLOAD.windowsUrl();
+  }
+  return "https://nirai-flux.com/download/NiraiFlux-v1.0.0-x64-Setup.exe";
+}
+
+function startWindowsDownload() {
+  const url = windowsDownloadUrl();
+  const name =
+    window.NF_DOWNLOAD && typeof window.NF_DOWNLOAD.fileName === "function"
+      ? window.NF_DOWNLOAD.fileName()
+      : "NiraiFlux-Setup.exe";
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", name);
+  link.rel = "noopener";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+function runPendingAction() {
+  const action = pendingAction;
+  setPending(null);
+  if (action === "download") {
+    closeModal();
+    startWindowsDownload();
+    return;
+  }
+  if (action === "upgrade") {
+    const features = (state.entitlements && state.entitlements.features) || {};
+    if (features.is_pro) {
+      openModal();
+      return;
+    }
+    void onUpgrade();
+  }
+}
+
+async function requireSignInThen(action) {
+  setPending(action);
+  const token = await idToken();
+  if (token) {
+    runPendingAction();
+    return;
+  }
+  openModal("signin");
+}
+
 function setBusy(busy) {
   state.busy = busy;
   const node = els();
-  [node.google, node.submit, node.upgrade, node.resetSubmit].forEach(function (btn) {
+  [
+    node.google,
+    node.submit,
+    node.upgrade,
+    node.resetSubmit,
+    document.getElementById("pricing-login"),
+    document.getElementById("pricing-upgrade"),
+  ].forEach(function (btn) {
     if (btn) btn.disabled = busy;
   });
 }
@@ -340,6 +415,7 @@ function closeModal() {
   els().backdrop.hidden = true;
   document.documentElement.style.overflow = "";
   document.body.style.overflow = "";
+  setPending(null);
 }
 
 async function refreshEntitlements() {
@@ -546,6 +622,18 @@ function bind() {
       openModal();
     });
   });
+  const pricingLogin = document.getElementById("pricing-login");
+  if (pricingLogin) {
+    pricingLogin.addEventListener("click", function () {
+      void requireSignInThen("download");
+    });
+  }
+  const pricingUpgrade = document.getElementById("pricing-upgrade");
+  if (pricingUpgrade) {
+    pricingUpgrade.addEventListener("click", function () {
+      void requireSignInThen("upgrade");
+    });
+  }
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && !node.backdrop.hidden) closeModal();
@@ -567,7 +655,11 @@ void (async function () {
     firebaseApi.onAuthStateChanged(auth, function (user) {
       state.user = user;
       if (user) {
-        void saveSessionFromUser(user).then(refreshEntitlements);
+        void saveSessionFromUser(user)
+          .then(refreshEntitlements)
+          .then(function () {
+            if (pendingAction) runPendingAction();
+          });
       } else {
         state.entitlements = null;
         render();
@@ -575,6 +667,7 @@ void (async function () {
     });
     await refreshEntitlements();
     await confirmPurchaseIfNeeded();
+    if (pendingAction && (await idToken())) runPendingAction();
     render();
   } catch (err) {
     console.error(err);
