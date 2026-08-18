@@ -1,0 +1,490 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBjjWwMpyuWzURu-UyOuJriWFsXzDrJJjw",
+  authDomain: "nirai-flux-4d2c8.firebaseapp.com",
+  projectId: "nirai-flux-4d2c8",
+  appId: "1:844776605672:web:a805ecb395083f3520865d",
+};
+
+const CLOUD = "https://asia-northeast1-nirai-flux-4d2c8.cloudfunctions.net";
+const SESSION_KEY = "nirai.auth.session";
+
+const app = initializeApp(FIREBASE_CONFIG);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+const state = {
+  user: null,
+  entitlements: null,
+  mode: "signin",
+  busy: false,
+  error: null,
+  notice: null,
+};
+
+function t(key, vars) {
+  const lang = document.documentElement.lang === "en" ? "en" : "ja";
+  const dict = (window.NF_COPY && window.NF_COPY[lang]) || {};
+  let value = dict[key];
+  if (value == null) return key;
+  if (vars) {
+    Object.keys(vars).forEach(function (name) {
+      value = value.replace(new RegExp("\\{\\{" + name + "\\}\\}", "g"), vars[name]);
+    });
+  }
+  return value;
+}
+
+function yen(value) {
+  return "¥" + Number(value || 0).toLocaleString("ja-JP");
+}
+
+function checkoutReturnUrl(extra) {
+  const httpsOrigin =
+    location.protocol === "https:" ? location.origin : "https://amakann.github.io";
+  const path =
+    location.protocol === "https:" ? location.pathname : "/nirai-flux-web/";
+  const url = new URL(path, httpsOrigin);
+  const lang = new URLSearchParams(location.search).get("lang");
+  if (lang) url.searchParams.set("lang", lang);
+  Object.keys(extra || {}).forEach(function (key) {
+    url.searchParams.set(key, extra[key]);
+  });
+  return url.toString();
+}
+
+function saveSessionFromUser(user, extra) {
+  if (!user) {
+    localStorage.removeItem(SESSION_KEY);
+    return Promise.resolve();
+  }
+  return user.getIdToken().then(function (idToken) {
+    localStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify({
+        idToken: idToken,
+        refreshToken: extra && extra.refreshToken ? extra.refreshToken : user.refreshToken,
+        expiresAt: Date.now() + 55 * 60 * 1000,
+        email: user.email || (extra && extra.email) || null,
+        uid: user.uid,
+      }),
+    );
+  });
+}
+
+function consumeAuthRedirect() {
+  const hash = location.hash.replace(/^#/, "");
+  if (!hash.startsWith("nirai_auth=")) return false;
+  const clearHash = function () {
+    history.replaceState({}, "", location.pathname + location.search);
+  };
+  try {
+    const raw = decodeURIComponent(hash.slice("nirai_auth=".length));
+    const data = JSON.parse(raw);
+    clearHash();
+    if (data.error) throw new Error(data.error);
+    if (!data.idToken || !data.uid) return false;
+    localStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify({
+        idToken: data.idToken,
+        refreshToken: data.refreshToken || "",
+        expiresAt: Date.now() + Math.max(60, data.expiresIn || 3600) * 1000,
+        email: data.email || null,
+        uid: data.uid,
+      }),
+    );
+    return true;
+  } catch (err) {
+    clearHash();
+    state.error = firebaseAuthError(err);
+    return false;
+  }
+}
+
+async function idToken() {
+  if (auth.currentUser) return auth.currentUser.getIdToken();
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && parsed.idToken ? parsed.idToken : null;
+  } catch {
+    return null;
+  }
+}
+
+async function cloud(path, options) {
+  const token = await idToken();
+  const headers = Object.assign({}, options && options.headers);
+  if (options && options.body) headers["Content-Type"] = "application/json";
+  if (token) headers.Authorization = "Bearer " + token;
+  const res = await fetch(CLOUD + "/" + path, Object.assign({}, options, { headers: headers }));
+  const data = await res.json().catch(function () {
+    return {};
+  });
+  if (!res.ok) {
+    const err = new Error(data.message || data.error || "request_failed");
+    err.code = data.error;
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+function firebaseAuthError(err) {
+  const code = err && err.code ? String(err.code) : "";
+  const message = err instanceof Error ? err.message : String(err || "");
+  if (code === "auth/popup-blocked" || code === "auth/popup-closed-by-user") {
+    return t("accountGoogleBlocked");
+  }
+  if (code === "auth/unauthorized-domain" || message.indexOf("auth/unauthorized-domain") >= 0) {
+    return t("accountUnauthorizedDomain");
+  }
+  if (
+    code === "auth/invalid-credential" ||
+    code === "auth/wrong-password" ||
+    code === "auth/user-not-found"
+  ) {
+    return t("accountBadPassword");
+  }
+  if (code === "auth/email-already-in-use") return t("accountEmailTaken");
+  if (code === "auth/weak-password") return t("accountWeakPassword");
+  if (code === "auth/invalid-email" || code === "auth/missing-email") return t("accountInvalidEmail");
+  if (code === "auth/too-many-requests") return t("accountTooMany");
+  return message;
+}
+
+function els() {
+  return {
+    open: document.getElementById("account-open"),
+    backdrop: document.getElementById("account-modal"),
+    title: document.getElementById("account-title"),
+    signedOut: document.getElementById("account-signed-out"),
+    signedIn: document.getElementById("account-signed-in"),
+    reset: document.getElementById("account-reset"),
+    hint: document.getElementById("account-hint"),
+    emailLine: document.getElementById("account-email-line"),
+    notice: document.getElementById("account-notice"),
+    error: document.getElementById("account-error"),
+    upgrade: document.getElementById("account-upgrade"),
+    proNote: document.getElementById("account-pro-note"),
+    form: document.getElementById("account-form"),
+    email: document.getElementById("account-email"),
+    password: document.getElementById("account-password"),
+    confirmWrap: document.getElementById("account-confirm-wrap"),
+    confirm: document.getElementById("account-password-confirm"),
+    submit: document.getElementById("account-submit"),
+    switchRegister: document.getElementById("account-switch-register"),
+    switchSignin: document.getElementById("account-switch-signin"),
+    forgot: document.getElementById("account-forgot"),
+    resetForm: document.getElementById("account-reset-form"),
+    resetEmail: document.getElementById("account-reset-email"),
+    resetSubmit: document.getElementById("account-reset-submit"),
+    resetBack: document.getElementById("account-reset-back"),
+    google: document.getElementById("account-google"),
+    signout: document.getElementById("account-signout"),
+  };
+}
+
+function setBusy(busy) {
+  state.busy = busy;
+  const node = els();
+  [node.google, node.submit, node.upgrade, node.resetSubmit].forEach(function (btn) {
+    if (btn) btn.disabled = busy;
+  });
+}
+
+function render() {
+  const node = els();
+  if (!node.open || !node.backdrop) return;
+
+  const signedIn = Boolean(state.user || (state.entitlements && state.entitlements.uid));
+  const features = (state.entitlements && state.entitlements.features) || {};
+  const pricing = (state.entitlements && state.entitlements.pricing) || {};
+  const isPro = Boolean(features.is_pro);
+  const left = features.generations_left;
+  const email = (state.user && state.user.email) || (state.entitlements && state.entitlements.email) || "";
+
+  if (!signedIn) node.open.textContent = t("navAccount");
+  else if (isPro) node.open.textContent = t("accountProChip");
+  else if (typeof left === "number") node.open.textContent = t("accountLeftChip", { count: String(left) });
+  else node.open.textContent = t("navAccount");
+
+  const showReset = !signedIn && state.mode === "reset";
+  node.signedOut.hidden = signedIn || showReset;
+  node.signedIn.hidden = !signedIn;
+  node.reset.hidden = !showReset;
+
+  node.title.textContent = showReset ? t("accountResetTitle") : t("accountTitle");
+  if (node.hint) node.hint.textContent = t("accountHint");
+
+  node.notice.hidden = !state.notice;
+  node.notice.textContent = state.notice || "";
+  node.error.hidden = !state.error;
+  node.error.textContent = state.error || "";
+  node.signout = node.signout || document.getElementById("account-signout");
+  if (node.signout) node.signout.hidden = !signedIn;
+
+  if (signedIn) {
+    node.emailLine.textContent = email + (isPro ? " · Pro" : "");
+    node.upgrade.hidden = isPro;
+    node.proNote.hidden = !isPro;
+    const sale = pricing.sale_active !== false;
+    const current = pricing.current_price || 980;
+    const regular = pricing.regular_price || 2980;
+    node.upgrade.textContent = sale
+      ? t("accountUpgradeSale", { sale: yen(current), regular: yen(regular) })
+      : t("accountUpgradeRegular", { price: yen(current) });
+  } else if (!showReset) {
+    const register = state.mode === "register";
+    node.confirmWrap.hidden = !register;
+    if (node.confirm) node.confirm.required = register;
+    node.submit.textContent = register ? t("accountCreate") : t("accountSignIn");
+    node.switchRegister.hidden = register;
+    node.switchSignin.hidden = !register;
+  }
+}
+
+function openModal(mode) {
+  if (mode) state.mode = mode;
+  state.error = null;
+  const node = els();
+  node.backdrop.hidden = false;
+  document.body.style.overflow = "hidden";
+  render();
+}
+
+function closeModal() {
+  els().backdrop.hidden = true;
+  document.body.style.overflow = "";
+}
+
+function bridgeUrl() {
+  const url = new URL("https://nirai-flux-4d2c8.web.app/auth-bridge.html");
+  url.searchParams.set("origin", location.origin);
+  url.searchParams.set("mode", "redirect");
+  url.searchParams.set("return", checkoutReturnUrl());
+  return url.toString();
+}
+
+async function refreshEntitlements() {
+  const token = await idToken();
+  if (!token) {
+    state.entitlements = null;
+    render();
+    return;
+  }
+  try {
+    state.entitlements = await cloud("entitlements", { method: "GET" });
+  } catch {
+    state.entitlements = null;
+  }
+  render();
+}
+
+async function confirmPurchaseIfNeeded() {
+  const params = new URLSearchParams(location.search);
+  const purchase = params.get("purchase");
+  const sessionId = params.get("session_id") || "";
+  if (purchase === "cancel") {
+    state.notice = t("accountPurchaseCancel");
+    openModal();
+  }
+  if (purchase === "success") {
+    state.notice = t("accountPurchasePending");
+    openModal();
+    if (sessionId.indexOf("cs_") === 0) {
+      try {
+        await cloud("confirmCheckout", {
+          method: "POST",
+          body: JSON.stringify({ session_id: sessionId }),
+        });
+        await refreshEntitlements();
+        state.notice = t("accountPurchaseSuccess");
+        render();
+      } catch (err) {
+        state.error = firebaseAuthError(err);
+        render();
+      }
+    }
+  }
+  if (purchase) {
+    const clean = new URL(location.href);
+    clean.searchParams.delete("purchase");
+    clean.searchParams.delete("session_id");
+    history.replaceState({}, "", clean);
+  }
+}
+
+async function onGoogle() {
+  setBusy(true);
+  state.error = null;
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (err) {
+    const code = err && err.code ? String(err.code) : "";
+    if (code === "auth/popup-blocked" || code === "auth/unauthorized-domain") {
+      location.assign(bridgeUrl());
+      return;
+    }
+    state.error = firebaseAuthError(err);
+  } finally {
+    setBusy(false);
+    render();
+  }
+}
+
+async function onEmail(event) {
+  event.preventDefault();
+  const node = els();
+  const email = node.email.value.trim();
+  const password = node.password.value;
+  if (state.mode === "register" && password !== node.confirm.value) {
+    state.error = t("accountPasswordMismatch");
+    render();
+    return;
+  }
+  setBusy(true);
+  state.error = null;
+  try {
+    if (state.mode === "register") await createUserWithEmailAndPassword(auth, email, password);
+    else await signInWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    state.error = firebaseAuthError(err);
+  } finally {
+    setBusy(false);
+    render();
+  }
+}
+
+async function onReset(event) {
+  event.preventDefault();
+  const email = els().resetEmail.value.trim();
+  setBusy(true);
+  state.error = null;
+  try {
+    await sendPasswordResetEmail(auth, email, { url: checkoutReturnUrl() });
+    state.notice = t("accountResetSent");
+  } catch (err) {
+    state.error = firebaseAuthError(err);
+  } finally {
+    setBusy(false);
+    render();
+  }
+}
+
+async function onUpgrade() {
+  setBusy(true);
+  state.error = null;
+  try {
+    const data = await cloud("createCheckout", {
+      method: "POST",
+      body: JSON.stringify({
+        success_url: checkoutReturnUrl({ purchase: "success" }),
+        cancel_url: checkoutReturnUrl({ purchase: "cancel" }),
+      }),
+    });
+    if (!data.checkout_url) throw new Error("checkout_failed");
+    location.assign(data.checkout_url);
+  } catch (err) {
+    state.error = firebaseAuthError(err);
+    setBusy(false);
+    render();
+  }
+}
+
+async function onSignOut() {
+  await signOut(auth);
+  localStorage.removeItem(SESSION_KEY);
+  state.user = null;
+  state.entitlements = null;
+  state.notice = null;
+  render();
+}
+
+function bind() {
+  const node = els();
+  if (!node.open) return;
+
+  node.open.addEventListener("click", function () {
+    openModal();
+  });
+  node.backdrop.addEventListener("click", function (event) {
+    if (event.target === node.backdrop) closeModal();
+  });
+  node.backdrop.querySelectorAll("[data-account-close]").forEach(function (btn) {
+    btn.addEventListener("click", closeModal);
+  });
+  node.google.addEventListener("click", function () {
+    void onGoogle();
+  });
+  node.form.addEventListener("submit", function (event) {
+    void onEmail(event);
+  });
+  node.resetForm.addEventListener("submit", function (event) {
+    void onReset(event);
+  });
+  node.switchRegister.addEventListener("click", function () {
+    state.mode = "register";
+    state.error = null;
+    render();
+  });
+  node.switchSignin.addEventListener("click", function () {
+    state.mode = "signin";
+    state.error = null;
+    render();
+  });
+  node.forgot.addEventListener("click", function () {
+    state.mode = "reset";
+    state.error = null;
+    render();
+  });
+  node.resetBack.addEventListener("click", function () {
+    state.mode = "signin";
+    state.error = null;
+    render();
+  });
+  node.upgrade.addEventListener("click", function () {
+    void onUpgrade();
+  });
+  document.getElementById("account-signout").addEventListener("click", function () {
+    void onSignOut();
+  });
+  document.querySelectorAll("[data-account-open]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      openModal();
+    });
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && !node.backdrop.hidden) closeModal();
+  });
+  document.addEventListener("nf-lang", render);
+}
+
+consumeAuthRedirect();
+bind();
+onAuthStateChanged(auth, function (user) {
+  state.user = user;
+  if (user) {
+    void saveSessionFromUser(user).then(refreshEntitlements);
+  } else {
+    state.entitlements = null;
+    render();
+  }
+});
+void refreshEntitlements();
+void confirmPurchaseIfNeeded();
+render();
