@@ -13,7 +13,7 @@
       property="og:description"
       content="プロンプトを書いて、自分のPCからオリジナルBGMを流し続ける。クラウドの音楽APIには何も送りません。"
     />
-    <meta property="og:image" content="screenshot-studio.png" />
+    <meta property="og:image" content="https://nirai-flux.com/screenshot-studio.png" />
     <meta name="theme-color" content="#060910" />
     <link rel="icon" type="image/png" href="logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,7 +22,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Montserrat:wght@600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260818u" />
+    <link rel="stylesheet" href="styles.css?v=20260819g" />
     <!-- Keep every ?v= on this page equal. Bump them together when CSS/JS changes. -->
     <style>
       html:not(.i18n-ready) body {
@@ -56,12 +56,12 @@
         }
       </style>
     </noscript>
-    <script src="download-config.js?v=20260818u"></script>
-    <script src="i18n.js?v=20260818u" defer></script>
-    <script src="wave-peaks.js?v=20260818u" defer></script>
-    <script src="demo-player.js?v=20260818u" defer></script>
-    <script src="toc.js?v=20260818u" defer></script>
-    <script src="bg-terrain.js?v=20260818u" defer></script>
+    <script src="download-config.js?v=20260819g"></script>
+    <script src="i18n.js?v=20260819g" defer></script>
+    <script src="wave-peaks.js?v=20260819g" defer></script>
+    <script src="demo-player.js?v=20260819g" defer></script>
+    <script src="toc.js?v=20260819g" defer></script>
+    <script src="bg-terrain.js?v=20260819g" defer></script>
   </head>
   <body>
     <canvas id="bg-terrain" class="bg-terrain" aria-hidden="true"></canvas>
@@ -247,42 +247,72 @@
         <h2 class="section-title" id="features-title" data-i18n="featuresTitle">できること</h2>
         <div class="feature-grid">
           <article class="feature-card">
-            <h3 data-i18n="feat1Title">商用配信可</h3>
-            <p data-i18n-html="feat1Body">
-              <a href="https://stability.ai/license" target="_blank" rel="noopener noreferrer">Stability AI Community License</a>
-              の条件内で、商用配信にも使えます。年収などの制限はライセンス本文を確認してください。生成はあなたのPC上だけで完結します。
-            </p>
+            <div class="feature-card-media" aria-hidden="true">
+              <img src="feat-commercial.svg?v=20260819g" alt="" width="640" height="400" />
+            </div>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat1Title">商用配信可</h3>
+              <p data-i18n-html="feat1Body">
+                <a href="https://stability.ai/license" target="_blank" rel="noopener noreferrer">Stability AI Community License</a>
+                の条件内で、商用配信にも使えます。年収などの制限はライセンス本文を確認してください。生成はあなたのPC上だけで完結します。
+              </p>
+            </div>
           </article>
           <article class="feature-card">
-            <h3 data-i18n="feat2Title">API・OBS・Stream Deck対応</h3>
-            <p data-i18n-html="feat2Body">
-              ローカル HTTP API で Generate / Stream / Play / Stop を操作できます。OBS や Stream Deck、チャット連携からも同じエンドポイントを叩けます。
-              <a href="api.html">API ドキュメント</a>
-            </p>
+            <div class="feature-card-media" aria-hidden="true">
+              <img src="feat-api.svg?v=20260819g" alt="" width="640" height="400" />
+            </div>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat2Title">API・OBS・Stream Deck対応</h3>
+              <p data-i18n-html="feat2Body">
+                ローカル HTTP API で Generate / Stream / Play / Stop を操作できます。OBS や Stream Deck、チャット連携からも同じエンドポイントを叩けます。
+                <a href="api.html">API ドキュメント</a>
+              </p>
+            </div>
           </article>
           <article class="feature-card">
-            <h3 data-i18n="feat3Title">任意の音楽をアップロード</h3>
-            <p data-i18n="feat3Body">
-              好きな音声をアップロードして再生できます。配信のイントロやジングルを流してから、生成BGMへクロスフェードで切り替えることも可能です。
-            </p>
+            <div class="feature-card-media" aria-hidden="true">
+              <img src="feat-upload.svg?v=20260819g" alt="" width="640" height="400" />
+            </div>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat3Title">任意の音楽をアップロード</h3>
+              <p data-i18n="feat3Body">
+                好きな音声をアップロードして再生できます。配信のイントロやジングルを流してから、生成BGMへクロスフェードで切り替えることも可能です。
+              </p>
+            </div>
           </article>
           <article class="feature-card">
-            <h3 data-i18n="feat4Title">出力フォーマットを選択</h3>
-            <p data-i18n="feat4Body">
-              OPUS、AAC、MP3、WAV から選べます。配信用の軽量コーデックから、編集用の非圧縮まで用途に合わせて書き出せます。
-            </p>
+            <div class="feature-card-media" aria-hidden="true">
+              <img src="feat-formats.svg?v=20260819g" alt="" width="640" height="400" />
+            </div>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat4Title">出力フォーマットを選択</h3>
+              <p data-i18n="feat4Body">
+                OPUS、AAC、MP3、WAV から選べます。配信用の軽量コーデックから、編集用の非圧縮まで用途に合わせて書き出せます。
+              </p>
+            </div>
           </article>
           <article class="feature-card">
-            <h3 data-i18n="feat5Title">プリセット</h3>
-            <p data-i18n="feat5Body">
-              気に入った設定をプリセットとして保存。枠の流れに合わせて切り替えられます。
-            </p>
+            <div class="feature-card-media" aria-hidden="true">
+              <img src="feat-presets.svg?v=20260819g" alt="" width="640" height="400" />
+            </div>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat5Title">プリセット</h3>
+              <p data-i18n="feat5Body">
+                気に入った設定をプリセットとして保存。枠の流れに合わせて切り替えられます。
+              </p>
+            </div>
           </article>
           <article class="feature-card">
-            <h3 data-i18n="feat6Title">作った曲は何度でも再生</h3>
-            <p data-i18n="feat6Body">
-              一度つくった曲は残ります。配信のたびに作り直す必要はありません。何回再生しても、生成回数は増えません。
-            </p>
+            <div class="feature-card-media" aria-hidden="true">
+              <img src="feat-replay.svg?v=20260819g" alt="" width="640" height="400" />
+            </div>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat6Title">作った曲は何度でも再生</h3>
+              <p data-i18n="feat6Body">
+                一度つくった曲は残ります。配信のたびに作り直す必要はありません。何回再生しても、生成回数は増えません。
+              </p>
+            </div>
           </article>
         </div>
       </section>
@@ -357,7 +387,7 @@
                 <td class="compare-yes">〇</td>
                 <td class="compare-yes">〇</td>
               </tr>
-              <tr>
+              <tr class="compare-price">
                 <th scope="row" data-i18n="pricingRowPrice">価格</th>
                 <td data-i18n="pricingGuestPrice">無料</td>
                 <td data-i18n="pricingFreePrice">無料</td>
@@ -554,6 +584,6 @@
       </div>
     </div>
 
-    <script type="module" src="account.js?v=20260818u"></script>
+    <script type="module" src="account.js?v=20260819g"></script>
   </body>
 </html>

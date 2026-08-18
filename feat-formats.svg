@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="f-bg" x1="0" y1="0" x2="640" y2="400">
+      <stop stop-color="#0a121c"/>
+      <stop offset="1" stop-color="#132536"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#f-bg)"/>
+  <g font-family="DM Sans, sans-serif" font-weight="700" text-anchor="middle">
+    <g transform="translate(72 96)">
+      <rect width="228" height="88" rx="16" fill="#0d1420" stroke="#4a82b0"/>
+      <text x="114" y="40" fill="#dce6f0" font-size="22">OPUS</text>
+      <text x="114" y="64" fill="#7a8fa8" font-size="12" font-weight="500">stream</text>
+    </g>
+    <g transform="translate(340 96)">
+      <rect width="228" height="88" rx="16" fill="#0d1420" stroke="#243a52"/>
+      <text x="114" y="40" fill="#dce6f0" font-size="22">AAC</text>
+      <text x="114" y="64" fill="#7a8fa8" font-size="12" font-weight="500">broadcast</text>
+    </g>
+    <g transform="translate(72 216)">
+      <rect width="228" height="88" rx="16" fill="#0d1420" stroke="#243a52"/>
+      <text x="114" y="40" fill="#dce6f0" font-size="22">MP3</text>
+      <text x="114" y="64" fill="#7a8fa8" font-size="12" font-weight="500">share</text>
+    </g>
+    <g transform="translate(340 216)">
+      <rect width="228" height="88" rx="16" fill="#132536" stroke="#6a9cc0"/>
+      <text x="114" y="40" fill="#e8f0f8" font-size="22">WAV</text>
+      <text x="114" y="64" fill="#8aa8c4" font-size="12" font-weight="500">edit / lossless</text>
+    </g>
+  </g>
+</svg>

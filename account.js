@@ -267,11 +267,52 @@ function els() {
 }
 
 const PENDING_KEY = "nirai.pending.action";
+const DESKTOP_AUTH_URL = "http://127.0.0.1:18787/desktop-auth";
 let pendingAction = null;
 try {
   pendingAction = sessionStorage.getItem(PENDING_KEY);
 } catch {
   pendingAction = null;
+}
+
+function isDesktopAuth() {
+  try {
+    return new URLSearchParams(location.search).get("desktop_auth") === "1";
+  } catch {
+    return false;
+  }
+}
+
+let desktopAuthSent = false;
+
+function handOffDesktopAuthIfNeeded(user) {
+  if (!isDesktopAuth() || !user || desktopAuthSent) return Promise.resolve();
+  desktopAuthSent = true;
+  state.notice = t("accountDesktopReturn");
+  render();
+  return user.getIdToken().then(function (idToken) {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = DESKTOP_AUTH_URL;
+    form.acceptCharset = "UTF-8";
+    const add = function (name, value) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      input.value = value || "";
+      form.appendChild(input);
+    };
+    add("id_token", idToken);
+    add("refresh_token", user.refreshToken || "");
+    add("email", user.email || "");
+    add("uid", user.uid || "");
+    document.body.appendChild(form);
+    form.submit();
+  }).catch(function () {
+    desktopAuthSent = false;
+    state.error = t("accountDesktopFailed");
+    render();
+  });
 }
 
 function setPending(action) {
@@ -372,7 +413,9 @@ function render() {
   node.reset.hidden = !showReset;
 
   node.title.textContent = showReset ? t("accountResetTitle") : t("accountTitle");
-  if (node.hint) node.hint.textContent = t("accountHint");
+  if (node.hint) {
+    node.hint.textContent = isDesktopAuth() ? t("accountDesktopHint") : t("accountHint");
+  }
 
   node.notice.hidden = !state.notice;
   node.notice.textContent = state.notice || "";
@@ -643,6 +686,10 @@ function bind() {
 
 consumeAuthRedirect();
 bind();
+if (isDesktopAuth()) {
+  setPending(null);
+  openModal();
+}
 render();
 void (async function () {
   try {
@@ -658,6 +705,7 @@ void (async function () {
         void saveSessionFromUser(user)
           .then(refreshEntitlements)
           .then(function () {
+            if (isDesktopAuth()) return handOffDesktopAuthIfNeeded(user);
             if (pendingAction) runPendingAction();
           });
       } else {
@@ -667,7 +715,13 @@ void (async function () {
     });
     await refreshEntitlements();
     await confirmPurchaseIfNeeded();
-    if (pendingAction && (await idToken())) runPendingAction();
+    if (isDesktopAuth()) {
+      setPending(null);
+      openModal();
+      if (state.user) await handOffDesktopAuthIfNeeded(state.user);
+    } else if (pendingAction && (await idToken())) {
+      runPendingAction();
+    }
     render();
   } catch (err) {
     console.error(err);

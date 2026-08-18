@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="a-bg" x1="0" y1="0" x2="640" y2="400">
+      <stop stop-color="#0a121c"/>
+      <stop offset="1" stop-color="#132536"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#a-bg)"/>
+  <rect x="56" y="56" width="360" height="232" rx="14" fill="#0d1420" stroke="#243a52"/>
+  <rect x="56" y="56" width="360" height="32" rx="14" fill="#132536"/>
+  <circle cx="78" cy="72" r="5" fill="#4a82b0"/>
+  <circle cx="96" cy="72" r="5" fill="#3a6f9a"/>
+  <circle cx="114" cy="72" r="5" fill="#243a52"/>
+  <rect x="76" y="108" width="148" height="86" rx="8" fill="#132536" stroke="#3a6f9a"/>
+  <rect x="240" y="108" width="148" height="86" rx="8" fill="#0a121c" stroke="#243a52"/>
+  <rect x="76" y="208" width="312" height="58" rx="8" fill="#0a121c" stroke="#243a52"/>
+  <path d="M96 148 C116 136 132 160 152 148 S188 128 210 144" stroke="#6a9cc0" stroke-width="2" fill="none"/>
+  <rect x="256" y="132" width="116" height="10" rx="5" fill="#243a52"/>
+  <rect x="256" y="152" width="86" height="8" rx="4" fill="#3a6f9a" opacity=".7"/>
+  <g transform="translate(448 92)">
+    <rect width="136" height="136" rx="16" fill="#0d1420" stroke="#4a82b0"/>
+    <rect x="16" y="16" width="44" height="44" rx="8" fill="#3a6f9a"/>
+    <rect x="76" y="16" width="44" height="44" rx="8" fill="#132536" stroke="#243a52"/>
+    <rect x="16" y="76" width="44" height="44" rx="8" fill="#132536" stroke="#243a52"/>
+    <rect x="76" y="76" width="44" height="44" rx="8" fill="#4a82b0"/>
+  </g>
+  <text x="56" y="328" fill="#7a8fa8" font-family="ui-monospace, Consolas, monospace" font-size="13">POST /api/control</text>
+  <text x="56" y="352" fill="#6a9cc0" font-family="ui-monospace, Consolas, monospace" font-size="13">play / stop / generate</text>
+</svg>
