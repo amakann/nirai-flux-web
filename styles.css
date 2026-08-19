@@ -1005,6 +1005,11 @@ html[lang="ja"] .use-card h3 {
   font-weight: 600;
 }
 
+.compare-no {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
 .compare-price th,
 .compare-price td {
   border-bottom: 0;
