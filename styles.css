@@ -1656,7 +1656,19 @@ footer p {
     padding: 0.7rem 1.5rem 0.6rem;
   }
 
+  .brand {
+    grid-area: brand;
+  }
+
+  .topbar-sale {
+    grid-area: sale;
+    justify-self: end;
+    white-space: normal;
+    text-align: right;
+  }
+
   .topbar-actions {
+    grid-area: actions;
     justify-self: end;
   }
 }
@@ -1734,7 +1746,6 @@ footer p {
     padding-top: 1.25rem;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
   }
 
   .toc-list {
@@ -1784,7 +1795,6 @@ footer p {
   }
 
   .topbar {
-    overflow-x: hidden;
     max-width: 100%;
   }
 
@@ -1866,6 +1876,22 @@ footer p {
 
   .spec-grid {
     grid-template-columns: 1fr;
+  }
+
+  .topbar-inner {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "brand"
+      "sale"
+      "actions";
+    row-gap: 0.45rem;
+    padding: 0.7rem 1rem 0.55rem;
+  }
+
+  .topbar-sale,
+  .topbar-actions {
+    justify-self: start;
+    text-align: left;
   }
 }
 
