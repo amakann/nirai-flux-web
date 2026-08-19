@@ -352,7 +352,7 @@ function formatCopy(value, vars) {
 }
 
 function copyVars() {
-  const version = (window.NF_DOWNLOAD && window.NF_DOWNLOAD.version) || "1.0.5";
+  const version = (window.NF_DOWNLOAD && window.NF_DOWNLOAD.version) || "1.0.6";
   return { version };
 }
 
