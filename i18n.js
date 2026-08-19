@@ -110,6 +110,7 @@ const COPY = {
     navApi: "API ドキュメント",
     navHome: "ホーム",
     navAccount: "アカウント",
+    navMenu: "メニュー",
     saleBanner:
       'セール中 <strong>¥980</strong> <span class="pricing-was">¥2,980</span> <span class="cta-offer-off">67%オフ</span>',
     accountTitle: "アカウント",
@@ -274,6 +275,7 @@ const COPY = {
     navApi: "API Doc",
     navHome: "Home",
     navAccount: "Account",
+    navMenu: "Menu",
     saleBanner:
       'On sale <strong>¥980</strong> <span class="pricing-was">¥2,980</span> <span class="cta-offer-off">67% off</span>',
     accountTitle: "Account",
@@ -383,6 +385,10 @@ function applyLang(lang) {
   document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
     const value = dict[el.dataset.i18nAlt];
     if (value != null) el.setAttribute("alt", value);
+  });
+  document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+    const value = dict[el.dataset.i18nAria];
+    if (value != null) el.setAttribute("aria-label", value);
   });
   document.querySelectorAll("[data-lang]").forEach((btn) => {
     btn.setAttribute("aria-pressed", btn.dataset.lang === lang ? "true" : "false");

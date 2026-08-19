@@ -22,7 +22,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Montserrat:wght@600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260819n" />
+    <link rel="stylesheet" href="styles.css?v=20260819o" />
     <!-- Keep every ?v= on this page equal. Bump them together when CSS/JS changes. -->
     <style>
       html:not(.i18n-ready) body {
@@ -57,7 +57,8 @@
       </style>
     </noscript>
     <script src="download-config.js?v=20260819g"></script>
-    <script src="i18n.js?v=20260819j" defer></script>
+    <script src="i18n.js?v=20260819o" defer></script>
+    <script src="topbar-menu.js?v=20260819o" defer></script>
     <script src="wave-peaks.js?v=20260819g" defer></script>
     <script src="demo-player.js?v=20260819g" defer></script>
     <script src="toc.js?v=20260819m" defer></script>
@@ -79,7 +80,23 @@
             セール中 <strong>¥980</strong> <span class="pricing-was">¥2,980</span>
             <span class="cta-offer-off">67%オフ</span>
           </a>
-          <div class="topbar-actions">
+          <div class="topbar-end">
+          <div class="topbar-menu">
+            <button
+              type="button"
+              class="topbar-menu-toggle"
+              aria-expanded="false"
+              aria-controls="topbar-menu-panel"
+              data-i18n-aria="navMenu"
+              aria-label="メニュー"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="4" y1="7" x2="20" y2="7" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="17" x2="20" y2="17" />
+              </svg>
+            </button>
+            <div class="topbar-actions" id="topbar-menu-panel">
             <button type="button" class="nav-link nav-link--btn" id="account-open">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="8" r="4" />
@@ -88,6 +105,7 @@
               <span id="account-open-label" data-i18n="navAccount">Account</span>
             </button>
             <a class="nav-link" href="api.html" data-i18n="navApi">API Doc</a>
+            </div>
           </div>
           <div class="lang-switch" role="group" aria-label="Language">
             <button type="button" data-lang="ja" aria-pressed="true" aria-label="日本語" title="日本語">
@@ -105,6 +123,7 @@
                 <path d="M12 0 V16 M0 8 H24" stroke="#c8102e" stroke-width="2.6" />
               </svg>
             </button>
+          </div>
           </div>
         </div>
       </header>

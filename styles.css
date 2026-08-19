@@ -234,6 +234,15 @@ footer {
   transition: color 0.15s ease;
 }
 
+.topbar-end,
+.topbar-menu {
+  display: contents;
+}
+
+.topbar-menu-toggle {
+  display: none;
+}
+
 .topbar-actions {
   grid-area: actions;
   display: flex;
@@ -1652,8 +1661,7 @@ footer p {
   .topbar-inner {
     grid-template-columns: max-content minmax(0, 1fr);
     grid-template-areas:
-      "brand lang"
-      "actions actions"
+      "brand cluster"
       "sale sale";
     row-gap: 0.4rem;
     padding: 0.7rem 1.5rem 0.6rem;
@@ -1663,13 +1671,81 @@ footer p {
     grid-area: brand;
   }
 
-  .lang-switch {
-    grid-area: lang;
+  .topbar-end {
+    display: flex;
+    align-items: center;
     justify-self: end;
+    grid-area: cluster;
+    gap: 0.5rem;
+  }
+
+  .topbar,
+  .topbar-inner {
+    overflow: visible;
+  }
+
+  .topbar-menu {
+    display: block;
+    position: relative;
+    z-index: 16;
+  }
+
+  .topbar-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 2.1rem;
+    height: 2.1rem;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-elevated);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .topbar-menu-toggle:hover,
+  .topbar-menu.is-open .topbar-menu-toggle {
+    border-color: var(--green);
+  }
+
+  .topbar-menu-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 
   .topbar-actions {
-    grid-area: actions;
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    right: 0;
+    min-width: 11.5rem;
+    padding: 0.4rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-elevated);
+    box-shadow: var(--shadow);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.2rem;
+  }
+
+  .topbar-menu.is-open .topbar-actions {
+    display: flex;
+  }
+
+  .topbar-actions .nav-link,
+  .topbar-actions .nav-link--btn {
+    width: 100%;
+    justify-content: flex-start;
+    height: 2.3rem;
+    padding: 0 0.75rem;
+    border-radius: 8px;
+  }
+
+  .lang-switch {
     justify-self: end;
   }
 
@@ -1702,8 +1778,7 @@ footer p {
   .topbar-inner {
     grid-template-columns: max-content minmax(0, 1fr);
     grid-template-areas:
-      "brand lang"
-      "actions actions"
+      "brand cluster"
       "sale sale";
     padding: 0.75rem 1.25rem 0.5rem;
     row-gap: 0.4rem;
@@ -1711,16 +1786,6 @@ footer p {
 
   .brand {
     grid-area: brand;
-  }
-
-  .lang-switch {
-    grid-area: lang;
-    justify-self: end;
-  }
-
-  .topbar-actions {
-    grid-area: actions;
-    justify-self: end;
   }
 
   .topbar-sale {
