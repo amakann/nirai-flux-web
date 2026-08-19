@@ -133,8 +133,8 @@ footer {
 
 .topbar-inner {
   display: grid;
-  grid-template-columns: max-content minmax(0, 1fr) max-content;
-  grid-template-areas: "brand sale actions";
+  grid-template-columns: max-content minmax(0, 1fr) max-content max-content;
+  grid-template-areas: "brand sale actions lang";
   align-items: center;
   column-gap: 1.25rem;
   width: 100%;
@@ -482,8 +482,10 @@ footer {
 }
 
 .lang-switch {
+  grid-area: lang;
   display: flex;
   align-items: center;
+  justify-self: end;
   box-sizing: border-box;
   height: 2.1rem;
   padding: 3px;
@@ -1650,8 +1652,9 @@ footer p {
   .topbar-inner {
     grid-template-columns: max-content minmax(0, 1fr);
     grid-template-areas:
-      "brand sale"
-      "actions actions";
+      "brand lang"
+      "actions actions"
+      "sale sale";
     row-gap: 0.4rem;
     padding: 0.7rem 1.5rem 0.6rem;
   }
@@ -1660,16 +1663,21 @@ footer p {
     grid-area: brand;
   }
 
-  .topbar-sale {
-    grid-area: sale;
+  .lang-switch {
+    grid-area: lang;
     justify-self: end;
-    white-space: normal;
-    text-align: right;
   }
 
   .topbar-actions {
     grid-area: actions;
     justify-self: end;
+  }
+
+  .topbar-sale {
+    grid-area: sale;
+    justify-self: center;
+    white-space: normal;
+    text-align: center;
   }
 }
 
@@ -1694,14 +1702,20 @@ footer p {
   .topbar-inner {
     grid-template-columns: max-content minmax(0, 1fr);
     grid-template-areas:
-      "brand sale"
-      "actions actions";
+      "brand lang"
+      "actions actions"
+      "sale sale";
     padding: 0.75rem 1.25rem 0.5rem;
     row-gap: 0.4rem;
   }
 
   .brand {
     grid-area: brand;
+  }
+
+  .lang-switch {
+    grid-area: lang;
+    justify-self: end;
   }
 
   .topbar-actions {
@@ -1711,10 +1725,10 @@ footer p {
 
   .topbar-sale {
     grid-area: sale;
-    justify-self: end;
+    justify-self: center;
     padding: 0;
     white-space: normal;
-    text-align: right;
+    text-align: center;
   }
 
   .toc--mobile {
@@ -1876,22 +1890,6 @@ footer p {
 
   .spec-grid {
     grid-template-columns: 1fr;
-  }
-
-  .topbar-inner {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "brand"
-      "sale"
-      "actions";
-    row-gap: 0.45rem;
-    padding: 0.7rem 1rem 0.55rem;
-  }
-
-  .topbar-sale,
-  .topbar-actions {
-    justify-self: start;
-    text-align: left;
   }
 }
 
