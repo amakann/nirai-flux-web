@@ -329,7 +329,7 @@ function windowsDownloadUrl() {
   if (window.NF_DOWNLOAD && typeof window.NF_DOWNLOAD.windowsUrl === "function") {
     return window.NF_DOWNLOAD.windowsUrl();
   }
-  return "https://nirai-flux.com/download/NiraiFlux-v1.0.3-x64-Setup.exe";
+  return "https://nirai-flux.com/download/NiraiFlux-v1.0.5-x64-Setup.exe";
 }
 
 function startWindowsDownload() {
