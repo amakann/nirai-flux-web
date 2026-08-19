@@ -658,10 +658,28 @@ main {
 }
 
 .eyebrow {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.35rem;
   color: var(--ink-muted);
   font-size: 0.9rem;
   font-weight: 500;
+}
+
+.powered-by {
+  margin: 0 0 0.85rem;
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.powered-by a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.powered-by a:hover {
+  color: var(--accent-hover);
 }
 
 .hero h1 {

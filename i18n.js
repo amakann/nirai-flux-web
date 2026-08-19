@@ -2,10 +2,12 @@ const COPY = {
   ja: {
     metaTitle: "Nirai Flux — 自分のPCで、配信BGMを流し続ける",
     metaDesc:
-      "配信者のためのローカルAI音楽スタジオ。好きなジャンル・プロンプトの曲を自分のPCで生成。ゲスト5曲、無料アカウント100曲、Proは買い切り¥980で無制限。",
-    eyebrow: "配信者のためのローカルAI音楽スタジオ",
+      "配信者のためのローカルAI音楽ストリーミングアプリ。プロンプトの曲を自分のPCで生成し、切れ目なくストリーミング。ゲスト5曲、無料アカウント100曲、Proは買い切り¥980で無制限。",
+    eyebrow: "配信者のためのローカルAI音楽ストリーミングアプリ",
+    poweredBy:
+      'Powered by <a href="https://stability.ai/" target="_blank" rel="noopener noreferrer">Stability AI</a> · <a href="https://stability.ai/stable-audio" target="_blank" rel="noopener noreferrer">Stable Audio 3</a>',
     heroTitle: "自分のパソコンで、<br />好きな音楽をずっと流せる。",
-    lede: "配信者向け。<strong>好きなジャンル・プロンプト</strong>の曲を、自分のPCで生成。<strong>Stable Audio 3</strong> がローカルで動くので、クラウドの音楽APIには何も送りません。アカウントは任意です。",
+    lede: "商用利用可。好きなジャンル・プロンプトの曲を自分のPCで生成し、切れ目なくストリーミング再生できます。",
     download: "Windows版をダウンロード",
     downloadOffer:
       '100曲まで無料 <span class="cta-offer-sep">·</span> 無制限は <strong>¥980</strong> <span class="pricing-was">¥2,980</span> <span class="cta-offer-off">67%オフ</span>',
@@ -163,10 +165,12 @@ const COPY = {
   en: {
     metaTitle: "Nirai Flux — stream your own BGM, on your PC",
     metaDesc:
-      "A local AI music studio for streamers. Generate on your PC. Guest: 5 songs. Free account: 100. Pro: ¥980 one-time for unlimited generations.",
-    eyebrow: "Local AI music studio for streamers",
+      "A local AI music streaming app for streamers. Generate from a prompt on your PC and keep streaming. Guest: 5 songs. Free account: 100. Pro: ¥980 one-time for unlimited generations.",
+    eyebrow: "Local AI music streaming app for streamers",
+    poweredBy:
+      'Powered by <a href="https://stability.ai/" target="_blank" rel="noopener noreferrer">Stability AI</a> · <a href="https://stability.ai/stable-audio" target="_blank" rel="noopener noreferrer">Stable Audio 3</a>',
     heroTitle: "Keep your own music playing.<br />On your PC, without stopping.",
-    lede: "Built for streamers. Write a prompt, pick a genre, and <strong>generate on your own computer</strong>. <strong>Stable Audio 3</strong> runs locally — nothing is sent to a cloud music API. Accounts are optional.",
+    lede: "Commercial use allowed. Generate tracks from a genre or prompt on your PC, and stream them without gaps.",
     download: "Download for Windows",
     downloadOffer:
       'Free up to 100 songs <span class="cta-offer-sep">·</span> Unlimited <strong>¥980</strong> <span class="pricing-was">¥2,980</span> <span class="cta-offer-off">67% off</span>',
