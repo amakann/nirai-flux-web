@@ -133,16 +133,15 @@ footer {
 
 .topbar-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  grid-template-areas:
-    ". sale actions"
-    "brand brand brand";
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  grid-template-areas: "brand sale actions";
   align-items: center;
-  column-gap: 1rem;
-  row-gap: 0.45rem;
-  max-width: var(--shell);
-  margin: 0 auto;
-  padding: 0.5rem 1.5rem 0.85rem;
+  column-gap: 1.25rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0.7rem 1.5rem;
+  box-sizing: border-box;
 }
 
 .topbar-sale {
@@ -193,7 +192,8 @@ footer {
   align-items: center;
   gap: 0.7rem;
   justify-self: start;
-  min-width: 0;
+  flex-shrink: 0;
+  z-index: 1;
 }
 
 .brand-link {
@@ -202,6 +202,7 @@ footer {
   gap: 0.7rem;
   color: inherit;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .brand-link:hover {
@@ -219,6 +220,7 @@ footer {
   object-fit: cover;
   background: #060910;
   box-shadow: 0 0 0 1px var(--line);
+  flex-shrink: 0;
 }
 
 .wordmark {
@@ -228,6 +230,7 @@ footer {
   font-weight: 700;
   letter-spacing: 0.14em;
   line-height: 1;
+  white-space: nowrap;
   transition: color 0.15s ease;
 }
 
@@ -546,7 +549,7 @@ footer {
 .toc--desktop {
   display: block;
   position: sticky;
-  top: 6.75rem;
+  top: 5.2rem;
   align-self: start;
   padding: 0.15rem 0 0;
 }
@@ -627,7 +630,7 @@ main {
 #creator,
 #requirements,
 #download {
-  scroll-margin-top: 7rem;
+  scroll-margin-top: 5.5rem;
 }
 
 .docs-back {
