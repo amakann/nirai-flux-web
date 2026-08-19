@@ -1,6 +1,6 @@
 /** Single source for public Windows download URLs (Cloudflare R2). */
 window.NF_DOWNLOAD = {
-  version: "1.0.0",
+  version: "1.0.1",
   channel: "beta",
   baseUrl: "https://nirai-flux.com",
   fileName(version) {
