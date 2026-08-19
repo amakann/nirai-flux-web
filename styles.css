@@ -1071,6 +1071,51 @@ html[lang="ja"] .use-card h3 {
   font-weight: 700;
 }
 
+.compare-pro {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.55rem;
+}
+
+.compare-pro-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.compare-pro-logo {
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 5px;
+  object-fit: cover;
+  background: #060910;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.compare-pro-wordmark {
+  font-family: "Montserrat", var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
+.compare-unlimited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.32rem;
+}
+
+.compare-infinity {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink);
+}
+
 .how-to-list {
   margin: 0 0 0.85rem;
   padding-left: 1.2rem;
