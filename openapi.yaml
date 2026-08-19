@@ -20,7 +20,7 @@ servers:
 
 tags:
   - name: Control
-    description: Generate, stream, play, and stop
+    description: Generate, stream, play, skip, pause, resume, stop, and volume
   - name: Library
     description: Presets, songs, streams, and uploads
 
@@ -42,9 +42,10 @@ paths:
       tags: [Control]
       summary: Send control command
       description: |
-        Primary automation endpoint. Send JSON to generate, stream, play, or stop.
+        Primary automation endpoint. Send JSON to generate, stream, play, skip, pause, resume, stop, or set volume.
 
         For `play`, provide exactly one of `generation_id`, `stream_id`, or `upload_id`.
+        `skip` uses the same next-song logic as the player skip button. `pause` does not cancel a live stream; use `stop` for that.
       operationId: postControl
       requestBody:
         required: true
@@ -76,6 +77,18 @@ paths:
                 summary: Stop playback and stream
                 value:
                   action: stop
+              skip:
+                summary: Skip to next song
+                value:
+                  action: skip
+              pause:
+                summary: Pause playback (stream keeps generating)
+                value:
+                  action: pause
+              resume:
+                summary: Resume paused playback
+                value:
+                  action: resume
               volume:
                 summary: Set master volume
                 value:
@@ -181,7 +194,7 @@ components:
       properties:
         action:
           type: string
-          enum: [generate, stream, play, stop, volume]
+          enum: [generate, stream, play, skip, pause, resume, stop, volume]
         prompt:
           type: string
           description: Required for generate/stream unless `preset` is set

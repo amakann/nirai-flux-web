@@ -20,7 +20,7 @@ servers:
 
 tags:
   - name: Control
-    description: Generate / Stream / Play / Stop
+    description: Generate / Stream / Play / Skip / Pause / Resume / Stop / Volume
   - name: Library
     description: プリセット、曲、ストリーム、アップロード
 
@@ -42,9 +42,10 @@ paths:
       tags: [Control]
       summary: 制御コマンドを送信
       description: |
-        自動化のメインエンドポイント。JSON で generate / stream / play / stop を送ります。
+        自動化のメインエンドポイント。JSON で generate / stream / play / skip / pause / resume / stop / volume を送ります。
 
         `play` では `generation_id`、`stream_id`、`upload_id` のいずれか1つだけを指定してください。
+        `skip` はプレイヤーのスキップボタンと同じ次曲ロジックです。`pause` はライブストリームを止めません。止めるときは `stop` を使ってください。
       operationId: postControl
       requestBody:
         required: true
@@ -76,6 +77,23 @@ paths:
                 summary: 再生とストリームを停止
                 value:
                   action: stop
+              skip:
+                summary: 次の曲へスキップ
+                value:
+                  action: skip
+              pause:
+                summary: 再生を一時停止（ストリームは継続）
+                value:
+                  action: pause
+              resume:
+                summary: 一時停止を解除
+                value:
+                  action: resume
+              volume:
+                summary: マスター音量を設定
+                value:
+                  action: volume
+                  volume: 80
       responses:
         "200":
           description: コマンドを受け付けました
@@ -176,7 +194,7 @@ components:
       properties:
         action:
           type: string
-          enum: [generate, stream, play, stop, volume]
+          enum: [generate, stream, play, skip, pause, resume, stop, volume]
         prompt:
           type: string
           description: generate / stream で必須（`preset` を指定する場合は不要）

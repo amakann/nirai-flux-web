@@ -18,7 +18,7 @@
   "tags": [
     {
       "name": "Control",
-      "description": "Generate, stream, play, and stop"
+      "description": "Generate, stream, play, skip, pause, resume, stop, and volume"
     },
     {
       "name": "Library",
@@ -52,7 +52,7 @@
           "Control"
         ],
         "summary": "Send control command",
-        "description": "Primary automation endpoint. Send JSON to generate, stream, play, or stop.\n\nFor `play`, provide exactly one of `generation_id`, `stream_id`, or `upload_id`.\n",
+        "description": "Primary automation endpoint. Send JSON to generate, stream, play, skip, pause, resume, stop, or set volume.\n\nFor `play`, provide exactly one of `generation_id`, `stream_id`, or `upload_id`.\n`skip` uses the same next-song logic as the player skip button. `pause` does not cancel a live stream; use `stop` for that.\n",
         "operationId": "postControl",
         "requestBody": {
           "required": true,
@@ -91,6 +91,31 @@
                   "summary": "Stop playback and stream",
                   "value": {
                     "action": "stop"
+                  }
+                },
+                "skip": {
+                  "summary": "Skip to next song",
+                  "value": {
+                    "action": "skip"
+                  }
+                },
+                "pause": {
+                  "summary": "Pause playback (stream keeps generating)",
+                  "value": {
+                    "action": "pause"
+                  }
+                },
+                "resume": {
+                  "summary": "Resume paused playback",
+                  "value": {
+                    "action": "resume"
+                  }
+                },
+                "volume": {
+                  "summary": "Set master volume",
+                  "value": {
+                    "action": "volume",
+                    "volume": 80
                   }
                 }
               }
@@ -262,7 +287,11 @@
               "generate",
               "stream",
               "play",
-              "stop"
+              "skip",
+              "pause",
+              "resume",
+              "stop",
+              "volume"
             ]
           },
           "prompt": {
@@ -319,6 +348,13 @@
           "upload_id": {
             "type": "string",
             "description": "Upload id from `/api/uploads` (play only)"
+          },
+          "volume": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 100,
+            "description": "Master playback volume (0\u2013100). Required when `action` is `volume`; optional on other actions to adjust volume before executing."
           }
         }
       },

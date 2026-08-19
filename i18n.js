@@ -30,7 +30,7 @@ const COPY = {
       '<a href="https://stability.ai/license" target="_blank" rel="noopener noreferrer">Stability AI Community License</a> の条件内で、商用配信にも使えます。年収などの制限はライセンス本文を確認してください。生成はあなたのPC上だけで完結します。',
     feat2Title: "API・OBS・Stream Deck対応",
     feat2Body:
-      'ローカル HTTP API で Generate / Stream / Play / Stop を操作できます。OBS や Stream Deck、チャット連携からも同じエンドポイントを叩けます。<a href="api.html">API ドキュメント</a>',
+      'ローカル HTTP API で Generate / Stream / Play / Skip / Pause / Stop を操作できます。OBS や Stream Deck、チャット連携からも同じエンドポイントを叩けます。<a href="api.html">API ドキュメント</a>',
     feat3Title: "任意の音楽をアップロード",
     feat3Body:
       "好きな音声をアップロードして再生できます。配信のイントロやジングルを流してから、生成BGMへクロスフェードで切り替えることも可能です。",
@@ -157,7 +157,7 @@ const COPY = {
     accountPurchasePending: "決済を確認しています…",
     apiMetaTitle: "Nirai Flux API — OpenAPI",
     apiMetaDesc:
-      "Nirai Flux のローカル HTTP API リファレンス。Stream Deck、OBS、curl から Generate / Stream / Play / Stop を操作。",
+      "Nirai Flux のローカル HTTP API リファレンス。Stream Deck、OBS、curl から Generate / Stream / Play / Skip / Pause / Stop を操作。",
     apiTitle: "API リファレンス",
     apiLede:
       "ローカルスタジオ API の OpenAPI リファレンス。起動中の <code>http://127.0.0.1:8787</code> に対して Try it out できます。",
@@ -195,7 +195,7 @@ const COPY = {
       'Stable Audio 3 can be used for commercial streaming under the <a href="https://stability.ai/license" target="_blank" rel="noopener noreferrer">Stability AI Community License</a>. Check the license for revenue and other limits. Generation stays on your PC.',
     feat2Title: "API, OBS, and Stream Deck",
     feat2Body:
-      'Drive Generate / Stream / Play / Stop over a local HTTP API. The same endpoint works from OBS, Stream Deck, chat bots, or scripts. <a href="api.html">API Doc</a>',
+      'Drive Generate / Stream / Play / Skip / Pause / Stop over a local HTTP API. The same endpoint works from OBS, Stream Deck, chat bots, or scripts. <a href="api.html">API Doc</a>',
     feat3Title: "Uploads and jingles",
     feat3Body:
       "Upload any audio and play it. Run an intro or jingle first, then crossfade into generated BGM.",
@@ -322,7 +322,7 @@ const COPY = {
     accountPurchasePending: "Confirming your purchase…",
     apiMetaTitle: "Nirai Flux API — OpenAPI",
     apiMetaDesc:
-      "OpenAPI reference for the Nirai Flux local HTTP API. Generate, stream, play, and stop from Stream Deck, OBS, or curl.",
+      "OpenAPI reference for the Nirai Flux local HTTP API. Generate, stream, play, skip, pause, and stop from Stream Deck, OBS, or curl.",
     apiTitle: "API Reference",
     apiLede:
       "OpenAPI reference for the local studio API. Use Try it out against your running instance at <code>http://127.0.0.1:8787</code>.",
@@ -352,7 +352,7 @@ function formatCopy(value, vars) {
 }
 
 function copyVars() {
-  const version = (window.NF_DOWNLOAD && window.NF_DOWNLOAD.version) || "1.0.1";
+  const version = (window.NF_DOWNLOAD && window.NF_DOWNLOAD.version) || "1.0.2";
   return { version };
 }
 
