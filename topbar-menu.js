@@ -4,7 +4,7 @@
   const panel = document.getElementById("topbar-menu-panel");
   if (!menu || !toggle || !panel) return;
 
-  const compact = window.matchMedia("(max-width: 1280px)");
+  const compact = window.matchMedia("(max-width: 980px)");
 
   function setOpen(open) {
     const useMenu = compact.matches;

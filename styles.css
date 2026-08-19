@@ -1657,14 +1657,36 @@ footer p {
   margin: 0;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 980px) {
+  .site-chrome {
+    position: relative;
+    z-index: 30;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 0;
+  }
+
+  .topbar {
+    position: relative;
+    top: auto;
+    z-index: 30;
+    max-width: 100%;
+    overflow: visible;
+    border-bottom: 0;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
   .topbar-inner {
     grid-template-columns: max-content minmax(0, 1fr);
     grid-template-areas:
       "brand cluster"
       "sale sale";
+    padding: 0.75rem 1.25rem 0.5rem;
     row-gap: 0.4rem;
-    padding: 0.7rem 1.5rem 0.6rem;
+    overflow: visible;
   }
 
   .brand {
@@ -1677,17 +1699,14 @@ footer p {
     justify-self: end;
     grid-area: cluster;
     gap: 0.5rem;
-  }
-
-  .topbar,
-  .topbar-inner {
-    overflow: visible;
+    position: relative;
+    z-index: 31;
   }
 
   .topbar-menu {
     display: block;
     position: relative;
-    z-index: 16;
+    z-index: 32;
   }
 
   .topbar-menu-toggle {
@@ -1721,6 +1740,7 @@ footer p {
     position: absolute;
     top: calc(100% + 0.4rem);
     right: 0;
+    z-index: 33;
     min-width: 11.5rem;
     padding: 0.4rem;
     border: 1px solid var(--line);
@@ -1743,49 +1763,6 @@ footer p {
     height: 2.3rem;
     padding: 0 0.75rem;
     border-radius: 8px;
-  }
-
-  .lang-switch {
-    justify-self: end;
-  }
-
-  .topbar-sale {
-    grid-area: sale;
-    justify-self: center;
-    white-space: normal;
-    text-align: center;
-  }
-}
-
-@media (max-width: 980px) {
-  .site-chrome {
-    position: static;
-    background: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    border-bottom: 0;
-  }
-
-  .topbar {
-    position: relative;
-    top: auto;
-    border-bottom: 0;
-    background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  .topbar-inner {
-    grid-template-columns: max-content minmax(0, 1fr);
-    grid-template-areas:
-      "brand cluster"
-      "sale sale";
-    padding: 0.75rem 1.25rem 0.5rem;
-    row-gap: 0.4rem;
-  }
-
-  .brand {
-    grid-area: brand;
   }
 
   .topbar-sale {
@@ -1873,22 +1850,12 @@ footer p {
     color: var(--ink);
   }
 
-  .topbar {
-    max-width: 100%;
-  }
-
   .topbar-inner,
   footer {
     max-width: 100%;
     min-width: 0;
     width: 100%;
     box-sizing: border-box;
-  }
-
-  .topbar-actions {
-    flex-shrink: 1;
-    min-width: 0;
-    gap: 0.5rem;
   }
 
   .nav-link {
