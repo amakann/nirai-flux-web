@@ -287,15 +287,23 @@ let desktopAuthSent = false;
 
 function handOffDesktopAuthIfNeeded(user) {
   if (!isDesktopAuth() || !user || desktopAuthSent) return Promise.resolve();
-  desktopAuthSent = true;
-  state.notice = t("accountDesktopReturn");
-  render();
   let authState = "";
   try {
     authState = new URLSearchParams(location.search).get("state") || "";
   } catch {
     authState = "";
   }
+  // Host app must open this page with a one-time state (listener on :18787).
+  // Signing in on the website alone cannot hand tokens to a stopped desktop app.
+  if (!authState) {
+    state.notice = null;
+    state.error = t("accountDesktopNeedApp");
+    render();
+    return Promise.resolve();
+  }
+  desktopAuthSent = true;
+  state.notice = t("accountDesktopReturn");
+  render();
   return user.getIdToken().then(function (idToken) {
     const form = document.createElement("form");
     form.method = "POST";

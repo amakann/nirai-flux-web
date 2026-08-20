@@ -116,9 +116,12 @@ const COPY = {
     accountTitle: "アカウント",
     accountResetTitle: "パスワード再設定",
     accountHint: "サイトとアプリで同じアカウントです。ログインは「誰か」「何曲作ったか」「Pro か」だけをクラウドで管理します。",
-    accountDesktopHint: "ここでログインすると、このページから Nirai Flux アプリに戻します。スタジオは開きません。",
+    accountDesktopHint:
+      "デスクトップの Nirai Flux から「Googleで続行」を押して開いた場合のみ、ログイン後にアプリへ戻します。先にアプリを起動してください（スタジオの起動は不要です）。",
     accountDesktopReturn: "アプリに戻しています… このタブは閉じてかまいません。",
-    accountDesktopFailed: "アプリに接続できませんでした。Nirai Flux を開いたまま、もう一度ログインしてください。",
+    accountDesktopFailed: "アプリに接続できませんでした。Nirai Flux ホストを開いたまま、アプリ側からもう一度 Google ログインしてください。",
+    accountDesktopNeedApp:
+      "アプリが待っていないため、ここだけではデスクトップにログインを渡せません。Nirai Flux を起動 →「Googleで続行」から開き直してください。",
     accountGoogle: "Google で続ける",
     accountOrEmail: "またはメール",
     accountEmail: "メール",
@@ -281,9 +284,13 @@ const COPY = {
     accountTitle: "Account",
     accountResetTitle: "Reset password",
     accountHint: "The website and the app share the same account. Sign-in only tracks who you are, how many songs you’ve made, and whether Pro is unlocked.",
-    accountDesktopHint: "Sign in here, then this page returns you to the Nirai Flux app. The studio will not open.",
+    accountDesktopHint:
+      "Only when opened from the desktop app’s Continue with Google does sign-in return to the app. Start Nirai Flux first (the studio server does not need to be running).",
     accountDesktopReturn: "Returning you to the app… you can close this tab.",
-    accountDesktopFailed: "Could not reach the app. Keep Nirai Flux open and sign in again.",
+    accountDesktopFailed:
+      "Could not reach the app. Keep the Nirai Flux host open and start Google sign-in from the app again.",
+    accountDesktopNeedApp:
+      "The desktop app is not waiting for sign-in. Open Nirai Flux, then use Continue with Google from the app.",
     accountGoogle: "Continue with Google",
     accountOrEmail: "or email",
     accountEmail: "Email",
