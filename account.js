@@ -290,6 +290,12 @@ function handOffDesktopAuthIfNeeded(user) {
   desktopAuthSent = true;
   state.notice = t("accountDesktopReturn");
   render();
+  let authState = "";
+  try {
+    authState = new URLSearchParams(location.search).get("state") || "";
+  } catch {
+    authState = "";
+  }
   return user.getIdToken().then(function (idToken) {
     const form = document.createElement("form");
     form.method = "POST";
@@ -306,6 +312,7 @@ function handOffDesktopAuthIfNeeded(user) {
     add("refresh_token", user.refreshToken || "");
     add("email", user.email || "");
     add("uid", user.uid || "");
+    add("state", authState);
     document.body.appendChild(form);
     form.submit();
   }).catch(function () {
