@@ -267,6 +267,7 @@ function els() {
 }
 
 const PENDING_KEY = "nirai.pending.action";
+const DESKTOP_AUTH_KEY = "nirai.desktop.auth";
 const DESKTOP_AUTH_URL = "http://127.0.0.1:18787/desktop-auth";
 let pendingAction = null;
 try {
@@ -277,9 +278,61 @@ try {
 
 function isDesktopAuth() {
   try {
-    return new URLSearchParams(location.search).get("desktop_auth") === "1";
+    if (new URLSearchParams(location.search).get("desktop_auth") === "1") return true;
+    const saved = loadDesktopAuthHandshake();
+    return Boolean(saved && saved.desktop_auth === "1" && saved.state);
   } catch {
     return false;
+  }
+}
+
+function loadDesktopAuthHandshake() {
+  try {
+    const raw = sessionStorage.getItem(DESKTOP_AUTH_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== "object") return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function persistDesktopAuthHandshake() {
+  try {
+    const params = new URLSearchParams(location.search);
+    if (params.get("desktop_auth") !== "1") return;
+    const authState = params.get("state") || "";
+    if (!authState) return;
+    sessionStorage.setItem(
+      DESKTOP_AUTH_KEY,
+      JSON.stringify({
+        desktop_auth: "1",
+        state: authState,
+        lang: params.get("lang") || "",
+      }),
+    );
+  } catch {
+    // ignore
+  }
+}
+
+function clearDesktopAuthHandshake() {
+  try {
+    sessionStorage.removeItem(DESKTOP_AUTH_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+function desktopAuthState() {
+  try {
+    const fromUrl = new URLSearchParams(location.search).get("state") || "";
+    if (fromUrl) return fromUrl;
+    const saved = loadDesktopAuthHandshake();
+    return (saved && saved.state) || "";
+  } catch {
+    return "";
   }
 }
 
@@ -287,12 +340,7 @@ let desktopAuthSent = false;
 
 function handOffDesktopAuthIfNeeded(user) {
   if (!isDesktopAuth() || !user || desktopAuthSent) return Promise.resolve();
-  let authState = "";
-  try {
-    authState = new URLSearchParams(location.search).get("state") || "";
-  } catch {
-    authState = "";
-  }
+  const authState = desktopAuthState();
   // Host app must open this page with a one-time state (listener on :18787).
   // Signing in on the website alone cannot hand tokens to a stopped desktop app.
   if (!authState) {
@@ -321,6 +369,7 @@ function handOffDesktopAuthIfNeeded(user) {
     add("email", user.email || "");
     add("uid", user.uid || "");
     add("state", authState);
+    clearDesktopAuthHandshake();
     document.body.appendChild(form);
     form.submit();
   }).catch(function () {
@@ -700,6 +749,7 @@ function bind() {
 }
 
 consumeAuthRedirect();
+persistDesktopAuthHandshake();
 bind();
 if (isDesktopAuth()) {
   setPending(null);
